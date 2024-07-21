@@ -1,0 +1,25 @@
+
+
+
+.counter{
+  display: flex;
+  align-items: center;
+}
+
+/* עיצוב הודעה של מוצר נוסף בהצלחה */
+.custom-swal {
+  background-color: #ffffff; /* צבע הרקע של ה-Swal */
+  color: #7c1b54; /* צבע הטקסט */
+}
+
+.custom-swal .swal2-icon-success {
+  border-color: #7c1b54; /* צבע הגבול של האייקון */
+}
+
+.custom-swal .swal2-title {
+  color: #7c1b54; /* צבע הכותרת */
+}
+
+.custom-swal .swal2-popup {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* צל */
+}
