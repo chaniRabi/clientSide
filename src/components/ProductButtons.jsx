@@ -19,7 +19,7 @@ const ProductButtons = ({ product }) => {
     const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
     const navigate = useNavigate()
     const productsInCart = useSelector(state => state.cart.items)    //בשביל לזהות אם המוצר קיים כבר בעגלה
-    const addToCartText = productsInCart?.find((item) => item.id === product?.id) ? "עדכן את העגלה" : "הוסף לעגלה ";
+    const addToCartText = productsInCart?.find((item) => item.id === product?.id) ? "עדכן כמות" : "הוסף לעגלה ";
 
     const addToCart = async () => {
 

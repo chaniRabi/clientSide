@@ -44,85 +44,38 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
     lineHeight: 1.5,
 }));
 
-export default function ProductDetail({ open, onClose, product }) {
+export default function ProductDetail({ product }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     const dispatch = useDispatch();
     const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
     const navigate = useNavigate()
-
-
-    const [count, setCount] = useState(1);
-    // const { addToCart, addToCartText } = useCart(product, count);
-    // const addToCartText = productsInCart.find((item) => item.id === product?.id) ? "עדכן את העגלה" : "הוסף לעגלה ";
-
-    //   const handleMouseEnter = () => {
-    //     setShowOptions(true);
-    //   };
-    //   const handleMouseLeave = () => {
-    //     setShowOptions(false);
-    //   };
-
-    
-
+   
     return (
-        <Dialog
-            TransitionComponent={SlideTransition}
-            variant="permanant"
-            open={open}
-            fullScreen
-        >
-            <DialogTitle
-                sx={{
-                    background: Colors.secondary,
-                }}
+        <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
+        <Product sx={{ mr: 4 }}>
+            <ProductImage style={{ maxWidth: '600px' }} src={product.image} />
+        </Product>
+
+        <ProductDetailInfoWrapper>
+            <Typography textTransform={"uppercase"} sx={{ lineHeight: 2 }} variant="h4">
+                {product.name}
+            </Typography>
+            <Typography variant="body">
+                {product.description}
+            </Typography>
+           
+            <ProductButtons product={product}></ProductButtons>
+            <Box
+                display="flex"
+                alignItems="center"
+                sx={{ mt: 4, color: Colors.light }}
             >
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent={"space-between"}
-                >
-                    {product.name}
-                    <IconButton onClick={onClose}>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-            </DialogTitle>
-            <DialogContent>
-                <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={{ mr: 4 }}>
-                        <ProductImage style={{ maxWidth: '600px' }} src={product.image} />
-                    </Product>
-
-                    <ProductDetailInfoWrapper>
-                        <Typography textTransform={"uppercase"} sx={{ lineHeight: 2 }} variant="h4">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="body">
-                            {product.description}
-                        </Typography>
-                       
-                        <ProductButtons product={product}></ProductButtons>
-
-                        {/* <ProductAddToCart onClick={addToCartWithNotification} variant="contained">
-                        <Button variant="contained">הוסף לעגלה</Button>
-                        </ProductAddToCart> */}
-
-                        {/* <ProductAddToCart onClick={addToCartWithNotification}  variant="contained">
-                            {addToCartText}
-                        </ProductAddToCart> */}
-                        <Box
-                            display="flex"
-                            alignItems="center"
-                            sx={{ mt: 4, color: Colors.light }}
-                        >
-                            <FavoriteIcon sx={{ mr: 2 }} />
-                            הוסף לרשימת המשאלות
-                        </Box>
-                        {/* הסרת השורות של האייקונים של הרשתות החברתיות */}
-                    </ProductDetailInfoWrapper>
-                </ProductDetailWrapper>
-            </DialogContent>
-        </Dialog>
+                <FavoriteIcon sx={{ mr: 2 }} />
+                הוסף לרשימת המשאלות
+            </Box>
+            {/* הסרת השורות של האייקונים של הרשתות החברתיות */}
+        </ProductDetailInfoWrapper>
+    </ProductDetailWrapper>
     );
 }

@@ -28,15 +28,15 @@ const productInCartSlice = createSlice({
             const cart = action.payload;
             const productInCart = cart.productInCarts[0]
 
-            const existingItem = state.items.find(i => i.productId === productInCart.productId);
-
+            const existingItem = state.items.find(i => i.id === productInCart.productId);
+           
             if (existingItem) {
-                state.items = state.items.map(i => i.productId === productInCart.productId
-                    ? { ...i, quantity: productInCart.amount }// שלוש נק' זה לשפןך אובייקט קיים לאובייקט חדש ומעדכן את הכמות שלו
+                state.items = state.items.map(i => i.id === productInCart.productId
+                    ? { ...i, 'productInCarts': [{...i.productInCarts[0], amount: productInCart.amount}]  }// שלוש נק' זה לשפןך אובייקט קיים לאובייקט חדש ומעדכן את הכמות שלו
                     : i
                 )
             } else {
-                state.items.push({ ...cart, quantity: productInCart.amount });
+                state.items.push({ ...cart});
             }
         },
         REMOVE_ITEM: (state, action) => {

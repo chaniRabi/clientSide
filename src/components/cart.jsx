@@ -24,8 +24,7 @@ import Swal from 'sweetalert2';
 
 
 const Cart = () => {
-  // const [products, setProducts] = useState([]);
-  // const [cart, setCart] = useState([]);
+  
   const dispatch = useDispatch();//בשביל עדכון הסטייט
   const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
   const navigate = useNavigate();

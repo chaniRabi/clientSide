@@ -20,10 +20,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EmailIcon from '@mui/icons-material/Email';
 import { Colors, DrawerWidth } from '../../styles/adminTheme';
-// import Appbar from '../adminComponents/Appbar';
 import { styled, Typography, useTheme } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-// import Appbar from './Appbar'
+import AdminAppbar from './AdminAppbar'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -69,7 +68,7 @@ export default function NavDrawer({ open, setOpen }) {
   };
 
   const handleNavbarItemClicked = (item) => {
-    setSelectedItem(item);
+    setSelectedItem(item);//משמש לצורך המעקב אחרי הפריט שנבחר בניווט
     navigate(item);
   };
 
@@ -102,24 +101,22 @@ export default function NavDrawer({ open, setOpen }) {
         </DrawerHeader>
         <Divider />
         <List>
-          {/* <ListItem sx={{ display: 'block' }}>
+          <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"לוח ניהול"}
               icon={<DashboardIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('לוח ניהול')}
             />
-          </ListItem> */}
-          {/* <ListItem sx={{ display: 'block' }}>
+          </ListItem> 
+           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"מוצרים"}
               icon={<ReceiptIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('products')}
-            /> */}
-             <ListItem sx={{ display: 'block' }} onClick={()=>navigate("./products")}><ListItemText primary="מוצרים"/><ListItem/>
-           
-            
+            />
+             {/* <ListItem sx={{ display: 'block' }} onClick={()=>navigate("/admin/products")}><ListItemText primary="מוצרים"/><ListItem/> */}
           </ListItem>
           {/* <ListItem sx={{ display: 'block' }}>
             <MyListItemButton

@@ -30,14 +30,16 @@ import { GetProductsByCategoryId } from "../utils/product"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import ProductButtons from "./ProductButtons";
+import ProductDetailsDialog from "./ProductDetailsDialog";
 
 
 export default function SingleProductDesktop({ width, product, matches }) {
 
-  const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] = useDialogModal(ProductDetail);
+  // const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] = useDialogModal(ProductDetail);
 
   const [showOptions, setShowOptions] = useState(false);
-  
+  const [open, setOpen] = useState(false);
+
   const handleMouseEnter = () => {
     setShowOptions(true);
   };
@@ -61,13 +63,17 @@ export default function SingleProductDesktop({ width, product, matches }) {
         <ProductActionsWrapper show={showOptions || matches}>
           <Stack direction={matches ? 'row' : 'column'}>
 
-            <ProductActionButton onClick={() => showProductDetailDialog()}>
+            <ProductActionButton onClick={() => setOpen(true)}>
               <Tooltip placement="left" title="מסך מלא">
                 <FitScreenIcon color="primary" />
               </Tooltip>
             </ProductActionButton>
-            <ProductDetailDialog product={product} onClose={closeProductDialog} />
-          </Stack>
+            <ProductDetailsDialog
+            product={product}
+            open={open} 
+            setOpen={setOpen}
+            ></ProductDetailsDialog>
+          </Stack> 
         </ProductActionsWrapper>
 
         <ProductButtons product={product}></ProductButtons>
@@ -79,7 +85,6 @@ export default function SingleProductDesktop({ width, product, matches }) {
       </Product>
 
       <ProductMeta product={product} />
-      <ProductDetailDialog product={product} />
     </>
   );
 }

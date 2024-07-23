@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
 
 
 export default function AdminProducts() {
-   
+   console.log('hi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11');
     const handleAddProduct = () => {
         console.log("הוסף מוצר")
     }

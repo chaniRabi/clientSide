@@ -22,10 +22,13 @@ export const ordersSlice = createSlice({
             if (index !== -1) {
                 state.orders[index] = action.payload;
             }
+        },
+        deleteOrder: (state, action) => {
+            state.orders = state.orders.filter(order => order.id !== action.payload);
         }
     },
 });
 
-export const { setOrders, addOrder, updateOrderStatus } = ordersSlice.actions;
+export const { setOrders, addOrder, updateOrderStatus, deleteOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
