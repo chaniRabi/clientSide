@@ -72,7 +72,7 @@ const AppBar = styled(MuiAppBar)(({ theme, open }) => ({
 
 export default function AdminAppbar({open, handleDrawerOpen}) {
     return(
-        <AppBar position="fixed" elevation={0} open={open}>
+        <AppBar position="fixed" elevation={0} open={open} sx={{backgroundColor: Colors.secondary}}>
         <Toolbar>
           <IconButton
             color={Colors.black}

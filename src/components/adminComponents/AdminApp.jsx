@@ -1,7 +1,7 @@
-import { AppBar, Box } from "@mui/material";
+import { AppBar, Box, CssBaseline } from "@mui/material";
 import { duration, easing, styled } from '@mui/material/styles'
 import { Colors, DrawerWidth } from "../../styles/adminTheme";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Outlet, BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "../../App";
 import { useState } from "react";
 import { padding } from "polished";
@@ -23,7 +23,7 @@ export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
       }),
-      marginLeft: `-${DrawerWidth}px`,
+      marginLeft: -DrawerWidth,
       ...(open && {
           transition: theme.transitions.create('margin', {
               easing: theme.transitions.easing.easeOut,
@@ -36,15 +36,18 @@ export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open
 
 export default function AdminApp() {
     const [open, setOpen]=useState(true);
-
+//  backgroundColor: Colors.background, height: '100vh'
     return (
-        <Box sx={{display: 'flex', background: Colors.background, height: '100vh' }}>
-          <AdminAppbar/>
-          <NavDrawer open={open} setOpen={setOpen}/>
-          
+        <>
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
+            <AdminAppbar/>
             <Main open={open}>
-            
+                <Outlet></Outlet>
             </Main>
+            <NavDrawer open={open} setOpen={setOpen}/>
+            
         </Box>
+        </>
     )
 }

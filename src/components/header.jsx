@@ -13,11 +13,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import Search from './Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 const Header = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const logedUser = useSelector(state => state.user.logedUser);
+
 
   //פונקציה שכאשר המסך קטן התפריט יהיה כלפי מטה
   const matches = useMediaQuery(theme.breakpoints.down('md'));
@@ -42,15 +44,20 @@ const Header = () => {
 
       <Nav />
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        {
-          // isLoggedIn ? (
+        
+          {/* // isLoggedIn ? (
           //   <Tooltip title="התנתקות">
           //     <IconButton edge="end" color="inherit" component={Link} to="/signIn" label="התנתק">
           //       <LogoutIcon style={{ fontSize: 40 }} />
           //     </IconButton>
           //   </Tooltip>
-          // ) :
-          (
+          // ) : */}
+          {logedUser?.tipeUser == "admin" && <Tooltip title=" מנהל מערכת">
+          <Link to="/admin" style={{ color: "white" }}>
+            <AdminPanelSettingsIcon style={{ fontSize: 40 }} />
+          </Link>
+        </Tooltip>}
+          {(
             <Tooltip title="התחברות">
               <IconButton edge="end" color="inherit" component={Link} to="/signIn">
                 <PersonIcon style={{ fontSize: 40 }} />

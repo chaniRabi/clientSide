@@ -33,7 +33,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const MyListItemButton = ({ selected, icon, text, handleNavbarItemClicked }) => {
+const MyListItemButton = ({ selected, icon, text, label,  handleNavbarItemClicked }) => {
   return (
     <ListItemButton
       // כאשר לוחצים על הכפתור יופיע טקסט שיראה על מה לחצו
@@ -50,7 +50,7 @@ const MyListItemButton = ({ selected, icon, text, handleNavbarItemClicked }) => 
       <ListItemIcon sx={{ color: selected && Colors.primary }}>
         {icon}
       </ListItemIcon>
-      <ListItemText primary={text} />
+      <ListItemText primary={label} />
     </ListItemButton>
   );
 };
@@ -73,8 +73,9 @@ export default function NavDrawer({ open, setOpen }) {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+    <>
+    {/* <Box sx={{ display: 'flex' }}>
+      <CssBaseline /> */}
       {/* <Appbar open={open} handleDrawerOpen={handleDrawerOpen} /> */}
       <Drawer
         sx={{
@@ -104,6 +105,7 @@ export default function NavDrawer({ open, setOpen }) {
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"לוח ניהול"}
+              label = {"מוצרים"}
               icon={<DashboardIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('לוח ניהול')}
@@ -111,14 +113,15 @@ export default function NavDrawer({ open, setOpen }) {
           </ListItem> 
            <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
-              text={"מוצרים"}
+              text={"products"}
+              label = {"מוצרים"}
               icon={<ReceiptIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('products')}
             />
              {/* <ListItem sx={{ display: 'block' }} onClick={()=>navigate("/admin/products")}><ListItemText primary="מוצרים"/><ListItem/> */}
           </ListItem>
-          {/* <ListItem sx={{ display: 'block' }}>
+          <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"הודעות"}
               icon={<EmailIcon />}
@@ -141,11 +144,12 @@ export default function NavDrawer({ open, setOpen }) {
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('הגדרות')}
             />
-          </ListItem> */}
+          </ListItem>
         </List>
         <Divider />
       </Drawer>
-    </Box>
+    {/* </Box> */}
+    </>
   );
 }
 
