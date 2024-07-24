@@ -30,6 +30,7 @@ export default function AdminEditProductDialog({open, handleClose, isEdit, editP
         aria-labelledby="customized-dialog-title"
         open={open}
       >
+        {/* .... */}
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {isEdit ? `עריכת מוצר ${editProduct?.name}`: "הוספת מוצר"}
         </DialogTitle>
