@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ADD_ITEM, REMOVE_ITEM, SET_LOGGED_PRODUCTINCART, CLEAR_CART } from '../features/productInCartSlice';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { getProductById, getTotal } from '../productHelpers';
 
 
 const Cart = () => {
@@ -28,7 +29,8 @@ const Cart = () => {
   const dispatch = useDispatch();//בשביל עדכון הסטייט
   const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
   const navigate = useNavigate();
-  const productsInCart = useSelector(state => state.cart.items)    // בשביל לזהות אם המוצר קיים כבר בעגלה
+  const cart = useSelector(state => state.cart.items)    // בשביל לזהות אם המוצר קיים כבר בעגלה
+  const products = useSelector(state => state.product.products);
 
   console.log('loggedUser', loggedUser)
 
@@ -38,6 +40,7 @@ const Cart = () => {
   //     setCart(newCart);
   //   });
   // };
+
 
   const removeFromCart = (productId) => {
     Swal.fire({
@@ -92,7 +95,7 @@ const Cart = () => {
     });
   };
 
-  const total = productsInCart?.reduce((acc, item) => acc + (item.price * item.productInCarts[0]?.amount), 0);
+  const total = getTotal(products, cart)
 
   return (
     <Card >
@@ -101,16 +104,16 @@ const Cart = () => {
           סל קניות:
         </Typography>
         <List>
-          {productsInCart.map(item => (
+          {cart.map(item => (
             <React.Fragment key={item.id}>
               <ListItem>
                 <ListItemText
-                  primary={item.name}
-                  secondary={`כמות: ${item.productInCarts[0].amount} | מחיר: ${item.price * item.productInCarts[0].amount} ש"ח`}
+                  primary={getProductById(products, item.productId)?.name}
+                  secondary={`כמות: ${item.amount} | מחיר: ${(getProductById(products, item.productId)?.price) * item.amount} ש"ח`}
                   // secondary={`${item.price} ש"ח`}
                   sx={{ ml: 2 }}
                 />
-                <Button variant="contained" color="secondary" onClick={() => removeFromCart(item.productInCarts[0].id)} startIcon={<DeleteIcon sx={{ ml: 1 }} />} >
+                <Button variant="contained" color="secondary" onClick={() => removeFromCart(item.id)} startIcon={<DeleteIcon sx={{ ml: 1 }} />} >
                   הסר מהסל
                 </Button>
                 {/* <IconButton aria-label="delete" onClick={() => removeFromCart(item.id)}>

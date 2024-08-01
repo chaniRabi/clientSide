@@ -40,6 +40,8 @@ export default function SingleProductDesktop({ width, product, matches }) {
   const [showOptions, setShowOptions] = useState(false);
   const [open, setOpen] = useState(false);
 
+ 
+
   const handleMouseEnter = () => {
     setShowOptions(true);
   };
@@ -47,6 +49,9 @@ export default function SingleProductDesktop({ width, product, matches }) {
   const handleMouseLeave = () => {
     setShowOptions(false);
   };
+
+  const isOutOfStock = product.quantity === 0;
+
 
   return (
     <>
@@ -78,9 +83,11 @@ export default function SingleProductDesktop({ width, product, matches }) {
 
         <ProductButtons product={product}></ProductButtons>
 
-        {/* <ProductAddToCart onClick={addToCart} show={showOptions} variant="contained">
-          {addToCartText}
-        </ProductAddToCart> */}
+        {isOutOfStock && (
+          <Typography variant="h6" color="error">
+            אזל מהמלאי
+          </Typography>
+        )}
 
       </Product>
 

@@ -1,0 +1,113 @@
+{
+    "userId": 1008,
+    "totalCost": "142.50",
+    "date": "2024-07-31",
+    "statusId": 1,
+    "ordersProducts": [
+        {
+            "id": 1,
+            "categoryId": 16,
+            "name": "בריסטול A4",
+            "price": 3.5,
+            "image": "./IMG/בריסטול_לבן.jpg",
+            "description": "מארז של 10 בריסטולים",
+            "quantity": null,
+            "category": null,
+            "ordersProducts": [],
+            "productInCarts": [
+                {
+                    "id": 100,
+                    "amount": 38,
+                    "customerId": 0,
+                    "productId": 0,
+                    "customer": null,
+                    "product": null
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "categoryId": 10,
+            "name": "גואש מטאלי זהב",
+            "price": 5.5,
+            "image": ".\\IMG\\צבעי_גואש_מטאלי_זהב_כסף_נחושת.jpg                                                                                                                                                                 ",
+            "description": "בקבוק גואש צבע מטאלי זהב",
+            "quantity": null,
+            "category": null,
+            "ordersProducts": [],
+            "productInCarts": [
+                {
+                    "id": 101,
+                    "amount": 0,
+                    "customerId": 0,
+                    "productId": 0,
+                    "customer": null,
+                    "product": null
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "categoryId": 10,
+            "name": "סול נוצץ",
+            "price": 2.5,
+            "image": "./IMG/סול_נוצץ.jpg                                                                                                                                                                                      ",
+            "description": null,
+            "quantity": null,
+            "category": null,
+            "ordersProducts": [],
+            "productInCarts": [
+                {
+                    "id": 102,
+                    "amount": 2,
+                    "customerId": 0,
+                    "productId": 0,
+                    "customer": null,
+                    "product": null
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "categoryId": 10,
+            "name": "מדבקות עיגול זהב/כסף",
+            "price": 1.5,
+            "image": "./IMG/מדבקה_עיגול_זהב_כסף.jpg                                                                                                                                                                           ",
+            "description": null,
+            "quantity": null,
+            "category": null,
+            "ordersProducts": [],
+            "productInCarts": [
+                {
+                    "id": 112,
+                    "amount": 1,
+                    "customerId": 0,
+                    "productId": 0,
+                    "customer": null,
+                    "product": null
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "categoryId": 14,
+            "name": "בלון סמיילי",
+            "price": 1.5,
+            "image": "./IMG/בלון_סמיילי.jpg                                                                                                                                                                                   ",
+            "description": null,
+            "quantity": null,
+            "category": null,
+            "ordersProducts": [],
+            "productInCarts": [
+                {
+                    "id": 113,
+                    "amount": 2,
+                    "customerId": 0,
+                    "productId": 0,
+                    "customer": null,
+                    "product": null
+                }
+            ]
+        }
+    ]
+}

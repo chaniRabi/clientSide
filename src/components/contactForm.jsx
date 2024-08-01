@@ -3,13 +3,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, Button, Container, Typography, Box,Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Snackbar, Alert } from '@mui/material';
 import { setName, setEmail, setMessage, clearForm, setIsSubmitted } from '../features/contactSlice';
+import axios from 'axios';
+import { AddContct } from '../utils/lookupUtil';
+import Swal from 'sweetalert2';
 
 export default function ContactForm() {
     const dispatch = useDispatch();
     const { name, email, message, isSubmitted } = useSelector((state) => state.contact);
     const [errors, setErrors] = useState({});
+    const [submissionError, setSubmissionError] = useState(null);
 
     const validate = () => {
         const newErrors = {};
@@ -23,34 +27,38 @@ export default function ContactForm() {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            console.log('Form submitted:', { name, email, message });
-            dispatch(clearForm());
-            dispatch(setIsSubmitted(true));
-            setErrors({});
+            AddContct({
+                name,
+                email,
+                message
+            }).then(res => {
+                if (res.status === 200) {
+                    dispatch(clearForm());
+                    dispatch(setIsSubmitted(true));
+                    setErrors({});
+                    setSubmissionError(null);
+                    Swal.fire('!!')
+                }
+                else
+                    setSubmissionError("Failed to send the message. Please try again.");
+
+            })
+
         }
     };
 
     const handleBack = () => {
         dispatch(setIsSubmitted(false));  // חזרה למצב שלפני השליחה
-      };
+    };
 
-    // ניקוי הודעת המשוב לאחר זמן מה
-    // useEffect(() => {
-    //     if (feedbackMessage) {
-    //         const timer = setTimeout(() => {
-    //             dispatch(clearFeedbackMessage());
-    //         }, 3000);
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [feedbackMessage, dispatch]);
     return (
-         <Container maxWidth="sm">
+        <Container maxWidth="sm">
             {isSubmitted ? (
                 <Box textAlign="center" mt={4}>
                     <Alert severity="success">
@@ -104,6 +112,11 @@ export default function ContactForm() {
                                 required
                             />
                         </Box>
+                        {submissionError && (
+                            <Box mb={2}>
+                                <Alert severity="error">{submissionError}</Alert>
+                            </Box>
+                        )}
                         <Box display="flex" justifyContent="center">
                             <Button variant="contained" color="primary" type="submit">
                                 שלח

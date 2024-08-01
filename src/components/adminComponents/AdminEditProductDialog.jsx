@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import AdminAddProduct from './AdminAddProduct';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -22,6 +23,7 @@ export default function AdminEditProductDialog({open, handleClose, isEdit, editP
 
   return (
     <>
+    {/* <AdminAddProduct/> */}
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open dialog
       </Button> */}

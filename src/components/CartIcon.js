@@ -11,7 +11,7 @@ import useCart from './oldComponent/useCart';
 
 const CartIcon = () => {
   // const cart = useSelector(state => state.cart.items|| []); // או לפי המבנה של ה-state שלך
-  const productsInCart = useSelector(state => state.cart.items)    //בשביל לזהות אם המוצר קיים כבר בעגלה
+  const cart = useSelector(state => state.cart.items)    //בשביל לזהות אם המוצר קיים כבר בעגלה
 
   return (
     <>
@@ -21,7 +21,9 @@ const CartIcon = () => {
         </Badge>
       </IconButton> */}
       <IconButton aria-label="cart" style={{ color: 'white' }}>
-        <Badge badgeContent={productsInCart?.reduce((acc, item) => acc + (item.productInCarts[0]?.amount), 0)} color="secondary">
+      {/* <Badge badgeContent={productsInCart?.reduce((acc, item) => acc + (item.productInCarts[0]?.amount), 0)} color="secondary"> */}
+
+        <Badge badgeContent={cart?.length} color="secondary">
           <ShoppingCartIcon fontSize="large" />
         </Badge>
       </IconButton>

@@ -4,4 +4,9 @@ const GetContcts = async()=> {
     return await api.get('Lookup/GetContcts').then(res => res.data);
 }
 
-export {GetContcts}
+const AddContct = async(data)=>{
+    return await api.post('Lookup/AddContct', data).then(res => res);
+
+}
+
+export {GetContcts, AddContct}

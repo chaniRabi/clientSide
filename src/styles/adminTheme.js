@@ -10,7 +10,7 @@ export const DrawerWidth = 250;
 
 //colors
 export const Colors = {
-    primary: "#fo6292",
+    primary: "#f06292",
     secondary: "#ba68c8",
     success: "#4CAF50",
     info: "#00a2ff",
@@ -22,7 +22,7 @@ export const Colors = {
     border: "#DDDFE1",
     inverse: "#2F3D4A",
     shaft: "#333",
-    transparent: '#0000000',
+    transparent: '#00000000',
     ///////////////
     // Grays
     ///////////////

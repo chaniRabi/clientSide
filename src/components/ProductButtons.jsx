@@ -15,11 +15,18 @@ const ProductButtons = ({ product }) => {
 
     const dispatch = useDispatch();
 
-    const [count, setCount] = useState(1);
     const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
     const navigate = useNavigate()
-    const productsInCart = useSelector(state => state.cart.items)    //בשביל לזהות אם המוצר קיים כבר בעגלה
-    const addToCartText = productsInCart?.find((item) => item.id === product?.id) ? "עדכן כמות" : "הוסף לעגלה ";
+    const cart = useSelector(state => state.cart.items)    //בשביל לזהות אם המוצר קיים כבר בעגלה
+    const existProduct = cart?.find((item) => item.productId === product?.id)
+    const addToCartText = existProduct ? "עדכן כמות" : "הוסף לעגלה ";
+    const productAmount = existProduct?.amount ?? 1
+
+    const [count, setCount] = useState(productAmount);
+
+    // useEffect(()=>{
+
+    // }, [])
 
     const addToCart = async () => {
 
@@ -54,22 +61,20 @@ const ProductButtons = ({ product }) => {
     }
 
     const handleIncrease = () => {
-        setCount(count + 1);
+        setCount(count + 1)
     };
 
     const handleDecrease = () => {
-        if (count > 0) {
-            setCount(count - 1);
-        }
+        setCount(count - 1);
     };
 
     //פונקציה להודעה: הוסף מוצר בהצלחה
     const addToCartWithNotification = () => {
 
-        if (!checkLoginUser())
+        if (!checkLoginUser() || count === 0)
             return
 
-        const isProductInCart = productsInCart.find((item) => item.id === product.id);
+        const isProductInCart = cart.find((item) => item.productId === product.id);
 
         //יצירת אוביקט בשביל לשלוח לדטה בייס
         const productInCart = {
@@ -80,12 +85,12 @@ const ProductButtons = ({ product }) => {
         }
 
         // const updatedProduct = {...product, amount: count}
-        const newProduct = { ...product, productInCarts: [productInCart] }
+        // const newProduct = { ...product, productInCarts: [productInCart] }
 
         if (!isProductInCart) {
             AddProductToCart(productInCart).then((res) => {
                 if (res.status === 200)
-                dispatch(ADD_ITEM(newProduct));
+                    dispatch(ADD_ITEM(productInCart));
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -100,7 +105,7 @@ const ProductButtons = ({ product }) => {
         else {
             UpdateProduct(productInCart.productId, productInCart).then((res) => {
                 if (res.status === 200) {
-                    dispatch(ADD_ITEM(newProduct));
+                    dispatch(ADD_ITEM(productInCart));
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -119,12 +124,11 @@ const ProductButtons = ({ product }) => {
 
     return <div>
         <div style={{ display: 'flex', flexDirection: 'row', width: '200px', justifyContent: 'space-between', marginTop: '10px' }}>
-            <ProductCountAction onClick={handleIncrease}>
+            <ProductCountAction onClick={handleIncrease} disabled={product.quantity < count}>
                 +
             </ProductCountAction>
             <span className="counter" >{count}</span>
-
-            <ProductCountAction onClick={handleDecrease}>
+            <ProductCountAction onClick={handleDecrease} disabled={count === 0}>
                 -
             </ProductCountAction>
         </div>

@@ -25,18 +25,17 @@ const productInCartSlice = createSlice({
         },
         ADD_ITEM: (state, action) => {
 
-            const cart = action.payload;
-            const productInCart = cart.productInCarts[0]
+            const productInCart = action.payload;
+            // const productInCart = cart.productInCarts[0]
 
-            const existingItem = state.items.find(i => i.id === productInCart.productId);
-           
+            const existingItem = state.items.find(i => i.productId === productInCart.productId);
             if (existingItem) {
-                state.items = state.items.map(i => i.id === productInCart.productId
-                    ? { ...i, 'productInCarts': [{...i.productInCarts[0], amount: productInCart.amount}]  }// שלוש נק' זה לשפןך אובייקט קיים לאובייקט חדש ומעדכן את הכמות שלו
+                state.items = state.items.map(i => i.productId === productInCart.productId
+                    ? productInCart// שלוש נק' זה לשפןך אובייקט קיים לאובייקט חדש ומעדכן את הכמות שלו
                     : i
-                )
+                );
             } else {
-                state.items.push({ ...cart});
+                state.items.push(productInCart);
             }
         },
         REMOVE_ITEM: (state, action) => {
@@ -49,6 +48,7 @@ const productInCartSlice = createSlice({
                     existingItem.quantity -= 1;
                 }
             }
+            
         },
         CLEAR_CART: (state, action) => {
             state.items = []

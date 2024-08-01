@@ -10,8 +10,7 @@ return await api.get(`Order/getOrderById/${id}`).then(res => res.data);
 }
 
 const AddOrder = async(order) => {
-    // api.post('Category/AddCategory', category) - מקבל category כי בפונקציה של הקונטרולר הוא fromBody 
-return await api.post('Order/AddOrder', order).then(res => res.data);
+return await api.post('Order', order).then(res => res.data);
 }
 
 const RemoveOrder = async(id) => {

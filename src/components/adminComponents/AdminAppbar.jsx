@@ -70,9 +70,13 @@ const AppBar = styled(MuiAppBar)(({ theme, open }) => ({
     },
   }));
 
+  // const navigate = useNavigate();
+
 export default function AdminAppbar({open, handleDrawerOpen}) {
     return(
-        <AppBar position="fixed" elevation={0} open={open} sx={{backgroundColor: Colors.secondary}}>
+        <AppBar position="fixed" elevation={0} open={open}
+         sx={{backgroundColor: Colors.light}}
+         >
         <Toolbar>
           <IconButton
             color={Colors.black}
@@ -86,14 +90,14 @@ export default function AdminAppbar({open, handleDrawerOpen}) {
           {!open && <Typography
           fontWeight={'bold'}
           color={Colors.black} variant="h6" noWrap component="div">
-            Admin Dashboard
+            ניהול מערכת
           </Typography>}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="חפש"
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

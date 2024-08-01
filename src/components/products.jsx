@@ -19,11 +19,9 @@ import Search from './Search';
 
 
 export default function Products() {
-    // const [products, setProducts] = useState([]);
     // שימוש בשתנה של מערך מוצרים ששמרנו בחלק של המוצרים בסלייס
     const products = useSelector(state => state.product.products);
     const logedUser = useSelector(state => state.user.logedUser);
-    // const [categoryId, setCategoryId] = useState(null);
     const selectedCategoryId = useSelector(state => state.categries.selectedCategoryId);
     const searchTerm = useSelector(state => state.search.searchTerm);
 
@@ -32,7 +30,7 @@ export default function Products() {
     // const productsByCategory = useSelector(state => state.product.GetProductsByCategoryId);
     //  const productsView = productsByCategory?.length > 0 ? productsByCategory: products;
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -40,53 +38,23 @@ export default function Products() {
     //      navigate('/order');
     //  };
 
-    //  //  השם חייב להיות תואם למה שהגדרנו בApp.js - products/:categoryId
-    // const {categoryId} = useParams();
-    // console.log(categoryId)
-    // const getProduct = async (categoryId) => {
-    //     const data = await GetProducts(categoryId);
-    //     dispatch(setProducts(data));
-    // }
 
     //  //  השם חייב להיות תואם למה שהגדרנו בApp.js - products/:categoryId
     // const { categoryId } = useParams();
+
+    //שליפת נתונים: בפונקציה GetProductsList, לאחר שליפת המוצרים מהשרת, אנו מוסיפים לכל מוצר את שדה outOfStock על בסיס הכמות.
     const GetProductsList = async () => {
         const data = await GetProducts();
+         // Adding outOfStock property based on quantity
+         const updatedData = data.map(product => ({
+            ...product,
+            outOfStock: product.quantity === 0
+        }));
         dispatch(setProducts(data));
     }
 
     useEffect(() => {
-        GetProductsList()        //    //  קריאה ל־API בכדי לקבל את המוצרים
-        // const fetchProducts = async () => {
-        //     const data = await GetProduct();
-        //     // setProducts(data);
-        //      //דחיפת הנתונים לריקדס
-        //     dispatch(setProducts(data));
-        // };
-        // const GetProduct = async (categoryId) => {
-        //     const data = await GetProduct(categoryId);
-        //   //  setProducts(data);
-        //      //דחיפת הנתונים לריקדס
-        //     dispatch(setProducts(data));
-        // };
-
-
-        // if(products?.length === 0){
-        //     if(categoryId){
-        //         fetchGetProduct(categoryId);
-        //     }
-        //     else{
-        //         //שליפת נתונים מהשרת
-        //         // fetchProducts(currentPage);
-        //     } 
-        // }
-        // else
-        //  if(categoryId){
-        //     dispatch(setProducts(products));
-        // }
-        // else{
-        //     dispatch(setProductsByCategory([]));
-        // }
+        GetProductsList()        // קריאה ל־API לקבל את המוצרים  
     }, [dispatch, products.length]);
 
 
@@ -110,17 +78,8 @@ export default function Products() {
             <Box display="flex" justifyContent="center" sx={{ p: 10 }}>
                 <Typography variant="h4">כלל המוצרים שלנו:</Typography>
             </Box>
-            {logedUser?.tipeUser == "admin" && <Button>הוסף מוצר</Button>}
-            {/* <Box sx={{ flexGrow: 1 }}>
-        <Grid
-            container spacing={2}
-            // sx={{margin: '20px 4px 10px 4px'}}
-            >
-                 {products.map((product)=>(
-              <Product key={product.id} product={product}/>
-            ))}
-            </Grid>
-        </Box> */}
+            {/* {logedUser?.tipeUser == "admin" && <Button>הוסף מוצר</Button>} */}
+     
 
             {/* <Box display="flex" justifyContent="center" sx={{ p: 4 }}>
                 {Array.from({ length: totalPages }, (_, index) => (
@@ -133,6 +92,7 @@ export default function Products() {
                     </Button>
                 ))}
         </Box> */}
+
             <Container>
                 <Grid
                     container

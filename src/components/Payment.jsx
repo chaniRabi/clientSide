@@ -3,6 +3,7 @@ import { Card, CardContent, CardActions, Button, Typography, TextField, Box } fr
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { AddOrder } from '../utils/order';
+import { getTotal } from '../productHelpers';
 
 const Payment = () => {
     const [cardNumber, setCardNumber] = useState('');
@@ -11,33 +12,69 @@ const Payment = () => {
     const [cardHolderName, setCardHolderName] = useState('');
     const [errors, setErrors] = useState({});
     const cart = useSelector(state => state.cart.items); // Assuming you have cart in your Redux store
+    console.log("cart", cart)
+    const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
+    const products = useSelector(state => state.product.products);
 
-    const total = Array.isArray(cart) ? cart.reduce((acc, item) => acc + (item.price * item.productInCarts[0]?.amount), 0).toFixed(2) : '0.00';
+    const total = getTotal(products, cart)
 
     const validate = () => {
         const newErrors = {};
+
+        // Validate card number
         if (!cardNumber) newErrors.cardNumber = "מספר כרטיס הוא שדה חובה";
-        else if (!/^\d{16}$/.test(cardNumber)) newErrors.cardNumber = "מספר כרטיס חייב להיות 16 ספרות";
+        else if (!/^\d{10}$/.test(cardNumber)) newErrors.cardNumber = "מספר כרטיס חייב להיות לפחות 10 ספרות";
+       
+        // Validate expiry date
         if (!expiryDate) newErrors.expiryDate = "תוקף הכרטיס הוא שדה חובה";
         else if (!/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(expiryDate)) newErrors.expiryDate = "תוקף הכרטיס חייב להיות בפורמט MM/YY";
+        else {
+            const [month, year] = expiryDate.split('/').map(num => parseInt(num, 10));
+            const currentYear = new Date().getFullYear() % 100; // get last 2 digits of current year
+            const currentMonth = new Date().getMonth() + 1;
+            if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                newErrors.expiryDate = "תוקף הכרטיס פג";
+            }
+        }
+
+        // Validate CVV
         if (!cvv) newErrors.cvv = "CVV הוא שדה חובה";
         else if (!/^\d{3,4}$/.test(cvv)) newErrors.cvv = "CVV חייב להיות 3 או 4 ספרות";
         if (!cardHolderName) newErrors.cardHolderName = "ת.ז. של בעל הכרטיס הוא שדה חובה";
         return newErrors;
     };
 
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+
     const handlePayment = () => {
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            AddOrder();
-            Swal.fire({
-                title: "תשלום בוצע בהצלחה!",
-                text: `ע"ס ${total} ש"ח`,
-                icon: "success"
+            const data = {
+                userId: loggedUser.id,
+                totalCost: total,
+                date: getCurrentDate(),
+                statusId: 1,
+                ordersProducts: cart
+            }
+            AddOrder(data).then(res => {
+                if (res.status === 200) {
+                    Swal.fire({
+                        title: "תשלום בוצע בהצלחה!",
+                        text: `ע"ס ${total} ש"ח`,
+                        icon: "success"
+                    });
+                    setErrors({});
+                }
             });
-            setErrors({});
         }
     };
 

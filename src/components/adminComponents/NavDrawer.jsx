@@ -1,7 +1,7 @@
 
 
 
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,9 +20,10 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EmailIcon from '@mui/icons-material/Email';
 import { Colors, DrawerWidth } from '../../styles/adminTheme';
-import { styled, Typography, useTheme } from '@mui/material';
+import { colors, styled, Typography, useTheme } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import AdminAppbar from './AdminAppbar'
+import { useState } from 'react';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -57,7 +58,7 @@ const MyListItemButton = ({ selected, icon, text, label,  handleNavbarItemClicke
 
 export default function NavDrawer({ open, setOpen }) {
   const theme = useTheme();
-  const [selectedItem, setSelectedItem] = React.useState(''); //  
+  const [selectedItem, setSelectedItem] = useState(''); //  
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -76,7 +77,7 @@ export default function NavDrawer({ open, setOpen }) {
     <>
     {/* <Box sx={{ display: 'flex' }}>
       <CssBaseline /> */}
-      {/* <Appbar open={open} handleDrawerOpen={handleDrawerOpen} /> */}
+      <AdminAppbar open={open} handleDrawerOpen={handleDrawerOpen} />
       <Drawer
         sx={{
           width: DrawerWidth,
@@ -84,31 +85,33 @@ export default function NavDrawer({ open, setOpen }) {
           '& .MuiDrawer-paper': {
             width: DrawerWidth,
             boxSizing: 'border-box',
+            backgroundColor: Colors.background
           },
         }}
-        variant="persistent"
+        variant="permanent"
         anchor="left"
         open={open}
       >
         <DrawerHeader>
-        {open && <Typography
+        {open && 
+        <Typography
           fontWeight={'bold'}
-          color={Colors.black} variant="h6" noWrap component="div">
-            Admin 
+          color={Colors.light_gray} variant="h6" noWrap component="div">
+            ניהול מערכת 
           </Typography>}
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+           <IconButton onClick={handleDrawerClose}>
+            {/* {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />} */}
+           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
-              text={"לוח ניהול"}
-              label = {"מוצרים"}
+              text={"dashboard"}
+              label = {"לוח ניהול"}
               icon={<DashboardIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
-              selected={selectedItem.includes('לוח ניהול')}
+              selected={selectedItem.includes('dashboard')}
             />
           </ListItem> 
            <ListItem sx={{ display: 'block' }}>
@@ -119,30 +122,32 @@ export default function NavDrawer({ open, setOpen }) {
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('products')}
             />
-             {/* <ListItem sx={{ display: 'block' }} onClick={()=>navigate("/admin/products")}><ListItemText primary="מוצרים"/><ListItem/> */}
           </ListItem>
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
-              text={"הודעות"}
+              text={"message"}
+              label = {"הודעות"}
               icon={<EmailIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
-              selected={selectedItem.includes('הודעות')}
+              selected={selectedItem.includes('message')}
             />
           </ListItem>
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
-              text={"לקוחות"}
+              text={"customers"}
+              label = {"הודעות"}
               icon={<GroupsIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
-              selected={selectedItem.includes('לקוחות')}
+              selected={selectedItem.includes('customers')}
             />
           </ListItem>
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
-              text={"הגדרות"}
+              text={"Settings"}
+              label = {"הגדרות"}
               icon={<SettingsIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
-              selected={selectedItem.includes('הגדרות')}
+              selected={selectedItem.includes('Settings')}
             />
           </ListItem>
         </List>
