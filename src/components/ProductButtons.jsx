@@ -81,16 +81,16 @@ const ProductButtons = ({ product }) => {
             amount: count,
             customerId: loggedUser ? loggedUser.id : null,// בדיקת תנאי לפני הגישה למשתנה
             productId: product ? product.id : null,
-
+            product: product
         }
 
         // const updatedProduct = {...product, amount: count}
         // const newProduct = { ...product, productInCarts: [productInCart] }
 
         if (!isProductInCart) {
-            AddProductToCart(productInCart).then((res) => {
+            AddProductToCart({...productInCart, product: null}).then((res) => {
                 if (res.status === 200)
-                    dispatch(ADD_ITEM(productInCart));
+                    dispatch(ADD_ITEM({...productInCart, id: res.data.id}));
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -103,9 +103,9 @@ const ProductButtons = ({ product }) => {
             })
         }
         else {
-            UpdateProduct(productInCart.productId, productInCart).then((res) => {
+            UpdateProduct(isProductInCart.id, productInCart).then((res) => {
                 if (res.status === 200) {
-                    dispatch(ADD_ITEM(productInCart));
+                    dispatch(ADD_ITEM({...productInCart, id: isProductInCart.id}));
                     Swal.fire({
                         position: "center",
                         icon: "success",

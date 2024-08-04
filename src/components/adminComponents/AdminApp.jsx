@@ -45,7 +45,7 @@ export default function AdminApp() {
             <Main open={open}>
                 <Outlet></Outlet>
             </Main>
-            <AdminAppbar/> 
+            {/* <AdminAppbar/>  */}
             <NavDrawer open={open} setOpen={setOpen}/>
         </Box>
     )

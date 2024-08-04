@@ -26,7 +26,6 @@ const productInCartSlice = createSlice({
         ADD_ITEM: (state, action) => {
 
             const productInCart = action.payload;
-            // const productInCart = cart.productInCarts[0]
 
             const existingItem = state.items.find(i => i.productId === productInCart.productId);
             if (existingItem) {
@@ -42,11 +41,11 @@ const productInCartSlice = createSlice({
             const itemId = action.payload;
             const existingItem = state.items.find(i => i.id === itemId);
             if (existingItem) {
-                if (existingItem.quantity === 1) {
+                // if (existingItem.quantity === 1) {
                     state.items = state.items.filter(i => i.id !== itemId);
-                } else {
-                    existingItem.quantity -= 1;
-                }
+                // } else {
+                //     existingItem.quantity -= 1;
+                // }
             }
             
         },

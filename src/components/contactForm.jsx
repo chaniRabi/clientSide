@@ -43,7 +43,7 @@ export default function ContactForm() {
                     dispatch(setIsSubmitted(true));
                     setErrors({});
                     setSubmissionError(null);
-                    Swal.fire('!!')
+                    Swal.fire('פנייתך נשלחה!')
                 }
                 else
                     setSubmissionError("Failed to send the message. Please try again.");

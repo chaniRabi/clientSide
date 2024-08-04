@@ -92,6 +92,7 @@ export default function AdminAppbar({open, handleDrawerOpen}) {
           color={Colors.black} variant="h6" noWrap component="div">
             ניהול מערכת
           </Typography>}
+          <Search/>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

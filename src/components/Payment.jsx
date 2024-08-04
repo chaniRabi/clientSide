@@ -53,7 +53,44 @@ const Payment = () => {
     }
 
 
+    // const handlePayment = () => {
+    //     const validationErrors = validate();
+    //     if (Object.keys(validationErrors).length > 0) {
+    //         setErrors(validationErrors);
+    //     } else {
+    //         const data = {
+    //             userId: loggedUser.id,
+    //             totalCost: total,
+    //             date: getCurrentDate(),
+    //             statusId: 1,
+    //             ordersProducts: cart.map(c => {return {...c, product: null}})
+    //         }
+    //         AddOrder(data).then(res => {
+    //             if (res.status === 200) {
+    //                 Swal.fire({
+    //                     title: "תשלום בוצע בהצלחה!",
+    //                     text: `ע"ס ${total} ש"ח`,
+    //                     icon: "success"
+    //                 });
+    //                 setErrors({});
+    //             }
+    //         });
+    //     }
+    // };
     const handlePayment = () => {
+        if (cart.length === 0) {
+            Swal.fire({
+                title: "עגלה ריקה",
+                text: "העגלה שלך ריקה. נא להוסיף מוצרים לעגלה לפני ביצוע התשלום.",
+                icon: "warning",
+                confirmButtonText: 'OK',
+                // You can redirect the user to the shopping page here if needed
+                // e.g. window.location.href = '/shop';
+            });
+            return;
+        }
+
+
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -63,7 +100,7 @@ const Payment = () => {
                 totalCost: total,
                 date: getCurrentDate(),
                 statusId: 1,
-                ordersProducts: cart
+                ordersProducts: cart.map(c => {return {...c, product: null}})
             }
             AddOrder(data).then(res => {
                 if (res.status === 200) {
@@ -77,6 +114,7 @@ const Payment = () => {
             });
         }
     };
+
 
     return (
         <Card>

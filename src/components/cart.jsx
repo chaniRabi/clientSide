@@ -32,8 +32,6 @@ const Cart = () => {
   const cart = useSelector(state => state.cart.items)    // בשביל לזהות אם המוצר קיים כבר בעגלה
   const products = useSelector(state => state.product.products);
 
-  console.log('loggedUser', loggedUser)
-
   // const removeFromCart = (productId) => {
   //   RemoveProductFromCart(productId).then(res => {
   //     const newCart = cart.filter((item) => item.productInCarts[0].id !== productId);
@@ -41,8 +39,7 @@ const Cart = () => {
   //   });
   // };
 
-
-  const removeFromCart = (productId) => {
+  const removeFromCart = (productInCartId) => {
     Swal.fire({
       title: "בטוח להסיר את המוצר מהעגלה?",
       icon: "warning",
@@ -52,8 +49,8 @@ const Cart = () => {
       confirmButtonText: "כן, הסר את המוצר!"
     }).then((result) => {
       if (result.isConfirmed) {
-        RemoveProductFromCart(productId).then(res => {
-          dispatch(REMOVE_ITEM(productId));
+        RemoveProductFromCart(productInCartId).then(res => {
+          dispatch(REMOVE_ITEM(productInCartId));
           Swal.fire({
             title: "מחיקה מהסל!",
             text: "המוצר הוסר מהעגלה!",
@@ -108,8 +105,8 @@ const Cart = () => {
             <React.Fragment key={item.id}>
               <ListItem>
                 <ListItemText
-                  primary={getProductById(products, item.productId)?.name}
-                  secondary={`כמות: ${item.amount} | מחיר: ${(getProductById(products, item.productId)?.price) * item.amount} ש"ח`}
+                  primary={item.product?.name}
+                  secondary={`כמות: ${item.amount} | מחיר: ${(item.product?.price) * item.amount} ש"ח`}
                   // secondary={`${item.price} ש"ח`}
                   sx={{ ml: 2 }}
                 />

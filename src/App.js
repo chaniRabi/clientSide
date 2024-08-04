@@ -33,6 +33,7 @@ import AdminProducts from './components/adminComponents/AdminProducts';
 import Settings from './components/adminComponents/Settings';
 import ProductManagement from './components/ProductManagement';
 import OrderManagement from './components/OrderManagement';
+import Conditions from './components/Conditions';
 
 const myStore = configureStore({
   reducer: {
@@ -69,6 +70,8 @@ function App() {
                 <Route path="/products" element={<Products />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/contact" element={<ContactForm />} />
+                <Route path="/conditions" element={<Conditions />} />
+
               </Route>
               
               <Route path="/admin" element={<AdminApp />}>

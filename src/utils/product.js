@@ -15,7 +15,7 @@ const GetProductsByCategoryId = async(categoryId) =>{
 }
 
 const AddProduct = async(produc) => {
-return await api.post('Product/AddProduct', produc).then(res => res.data);
+return await api.post('Product', produc).then(res => res.data);
 }
 
 const RemoveProduct = async(id) => {

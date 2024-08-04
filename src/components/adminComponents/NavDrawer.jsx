@@ -77,7 +77,7 @@ export default function NavDrawer({ open, setOpen }) {
     <>
     {/* <Box sx={{ display: 'flex' }}>
       <CssBaseline /> */}
-      <AdminAppbar open={open} handleDrawerOpen={handleDrawerOpen} />
+      {/* <AdminAppbar open={open} handleDrawerOpen={handleDrawerOpen} /> */}
       <Drawer
         sx={{
           width: DrawerWidth,
@@ -135,7 +135,7 @@ export default function NavDrawer({ open, setOpen }) {
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"customers"}
-              label = {"הודעות"}
+              label = {"לקוחות"}
               icon={<GroupsIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('customers')}
