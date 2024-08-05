@@ -92,9 +92,9 @@ const Payment = () => {
 
 
         const validationErrors = validate();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-        } else {
+        // if (Object.keys(validationErrors).length > 0) {
+        //     setErrors(validationErrors);
+        // } else {
             const data = {
                 userId: loggedUser.id,
                 totalCost: total,
@@ -112,7 +112,7 @@ const Payment = () => {
                     setErrors({});
                 }
             });
-        }
+        // }
     };
 
 

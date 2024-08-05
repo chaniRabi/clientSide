@@ -4,26 +4,14 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Grid, Button, Typography, Paper } from '@mui/material';
 import {addOrder, updateOrderStatus, deleteOrder } from '../../features/ordersSlice';
-import {addProduct, editProduct, deleteProduct } from '../../features/productsSlice';
 
 //דף ראשי המציג סיכומים וסטטיסטיקות כלליות על החנות והמכירות
 const Dashboard = () => {
     const dispatch = useDispatch();
-    const products = useSelector(state => state.products.products);
+  //  const products = useSelector(state => state.products.products);
     const orders = useSelector(state => state.orders.orders);
   
-    const handleAddProduct = () => {
-      // Add product logic
-    };
-  
-    const handleDeleteProduct = (id) => {
-      dispatch(deleteProduct(id));
-    };
-  
-    const handleEditProduct = (product) => {
-      // Edit product logic
-    };
-  
+
     const handleAddOrder = () => {
       // Add order logic
     };
@@ -41,7 +29,7 @@ const Dashboard = () => {
             </Typography>
           </Grid>
           
-          <Grid item xs={6}>
+          {/* <Grid item xs={6}>
             <Paper sx={{ padding: 2 }}>
               <Typography variant="h6" gutterBottom>
                 Products
@@ -49,7 +37,7 @@ const Dashboard = () => {
               <Button variant="contained" color="primary" onClick={handleAddProduct}>
                 Add Product
               </Button>
-              {products.map(product => (
+              {products??products.map(product => (
                 <Box key={product.id} sx={{ marginTop: 2 }}>
                   <Typography>{product.name}</Typography>
                   <Button variant="outlined" color="secondary" onClick={() => handleDeleteProduct(product.id)}>
@@ -61,12 +49,12 @@ const Dashboard = () => {
                 </Box>
               ))}
             </Paper>
-          </Grid>
+          </Grid> */}
   
           <Grid item xs={6}>
             <Paper sx={{ padding: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Orders
+                הזמנות
               </Typography>
               <Button variant="contained" color="primary" onClick={handleAddOrder}>
                 Add Order

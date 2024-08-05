@@ -33,52 +33,76 @@ import Search from '../Search';
 
 // סכמת וולידציה
 const validationSchema = Yup.object({
-    Name: Yup.string().required('שם המוצר הוא שדה חובה'),
-    Price: Yup.number().required('מחיר הוא שדה חובה').positive('המחיר חייב להיות מספר חיובי'),
-    Description: Yup.string().optional()
+    name: Yup.string().required('שם המוצר הוא שדה חובה'),
+    price: Yup.number().required('מחיר הוא שדה חובה').positive('המחיר חייב להיות מספר חיובי'),
+    description: Yup.string().optional()
 });
 
 
 
 export default function AdminProducts() {
-    console.log("!!!!")
     const products = useSelector(state => state.product.products);
     console.log("!!!!", products);
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
-    const [editProduct, setEditProduct] = useState(false);
+    // const [editProduct, setEditProduct] = useState(false);
     const [initialValues, setInitialValues] = useState({
-        Name: '',
-        Price: 0,
-        Quantity: 0,
-        CategoryId: 9,
-        Description: '',
-        Image: '',
-        Id: 0
+        name: '',
+        price: 0,
+        quantity: 0,
+        categoryId: 9,
+        description: '',
+        image: '',
+        id: 0
     });
 
     // פונקציה לשליחת הטופס
     const handleSubmit = async (values, { resetForm }) => {
-        try {
-            const savedProduct = await AddProduct(values); // השתמש בפונקציה AddProduct
-            if (savedProduct) {
-                dispatch(addProduct(savedProduct));
+        console.log("submit");
+        if (initialValues.id != 0) {
+            console.log("update");
+            try {
+                const savedProduct = await UpdateProduct(values.id, values);
+                dispatch(editProduct(savedProduct));
                 resetForm(); // ניקוי הטופס לאחר הצלחה
                 setOpen(false);
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "המוצר נוסף לרשימת המוצרים",
+                    title: "המוצר עודכן ברשימת המוצרים",
                     showConfirmButton: false,
                     customClass: {
                         popup: 'custom-swal'
                     }
                 });
+            } catch (error) {
+                console.error('Failed to edid the product:', error);
             }
+        }
 
-        } catch (error) {
-            console.error('Failed to save the product:', error);
+        else {
+            console.log("add");
+            try {
+                const savedProduct = await AddProduct(values); // השתמש בפונקציה AddProduct
+                if (savedProduct) {
+                    dispatch(addProduct(savedProduct));
+                    resetForm(); // ניקוי הטופס לאחר הצלחה
+                    setOpen(false);
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "המוצר נוסף לרשימת המוצרים",
+                        showConfirmButton: false,
+                        customClass: {
+                            popup: 'custom-swal'
+                        }
+                    });
+                }
+
+            } catch (error) {
+                console.error('Failed to save the product:', error);
+            }
         }
     };
 
@@ -110,17 +134,38 @@ export default function AdminProducts() {
         );
     }
 
-    const handleAddProduct = () => {
-        console.log("הוסף מוצר")
-    }
+    // const handleAddProduct = () => {
+    //     console.log("הוסף מוצר")
+    // }
 
     const handelProductEdit = (product) => {
+        console.log("מוצר", product)
         setInitialValues(product);
         setOpen(true);
     }
 
-    const handelDeletProduct = (product) => {
-        console.log("מחק", product)
+    const handelDeletProduct = async (id) => {
+        Swal.fire({
+            title: "בטוח למחוק את כל העגלה?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "כן, נקה את העגלה!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+            RemoveProduct(id).then(res => {
+                dispatch(deleteProduct(res))
+                Swal.fire({
+                  title: "בוצע בהצלחה",
+                  text: "המוצר נמחק מרשימת המוצרים!",
+                  icon: "success",
+                  timer: 1500,
+                  showConfirmButton: false,
+                });
+              }).catch(err=>console.log(err));
+            }
+          });
     }
 
     // const handelProductEditOpenDialog = (p) => {
@@ -157,10 +202,10 @@ export default function AdminProducts() {
                                 <TableCell>{p.quantity}</TableCell>
                                 <TableCell>{p.description}</TableCell>
                                 <TableCell>
-                                    <IconButton onClick={() => handelProductEdit(open)}>
+                                    <IconButton onClick={() => handelProductEdit(p)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton onClick={() => handelDeletProduct(p)}>
+                                    <IconButton onClick={() => handelDeletProduct(p.id)}>
                                         <DeleteForeverIcon sx={{ color: Colors.danger }} />
                                     </IconButton>
                                 </TableCell>
@@ -176,12 +221,14 @@ export default function AdminProducts() {
                 fullWidth
                 maxWidth='lg'
             >
-                <DialogTitle>הוסף מוצר</DialogTitle>
+                {initialValues.id != 0 ? <DialogTitle>עריכת מוצר</DialogTitle> :
+                    <DialogTitle>הוסף מוצר</DialogTitle>
+                }
 
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit} // תיקון שגיאת כתיב כאן
+                    onSubmit={handleSubmit}
                 >
                     {({ dirty, isValid, getFieldProps }) => (
                         <Form>
@@ -190,60 +237,60 @@ export default function AdminProducts() {
                                     <Grid item xs={12}>
                                         <Field
                                             as={TextField}
-                                            name="Name"
+                                            name="name"
                                             label="שם המוצר" // תיקון תווית השדה
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="Name" />}
-                                            error={Boolean(<ErrorMessage name="Name" />)}
+                                            helperText={<ErrorMessage name="name" />}
+                                            error={Boolean(<ErrorMessage name="name" />)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Field
                                             as={TextField}
-                                            name="Price"
+                                            name="price"
                                             label="מחיר"
                                             type="number"
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="Price" />}
-                                            error={Boolean(<ErrorMessage name="Price" />)}
+                                            helperText={<ErrorMessage name="price" />}
+                                            error={Boolean(<ErrorMessage name="price" />)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Field
                                             as={TextField}
-                                            name="Quantity"
+                                            name="quantity"
                                             label="כמות במלאי"
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="Quantity" />}
-                                            error={Boolean(<ErrorMessage name="Quantity" />)}
+                                            helperText={<ErrorMessage name="quantity" />}
+                                            error={Boolean(<ErrorMessage name="quantity" />)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Field
                                             as={TextField}
-                                            name="Description"
+                                            name="description"
                                             label="תיאור"
                                             multiline
                                             rows={4}
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="Description" />}
-                                            error={Boolean(<ErrorMessage name="Description" />)}
+                                            helperText={<ErrorMessage name="description" />}
+                                            error={Boolean(<ErrorMessage name="description" />)}
                                         />
                                     </Grid>
                                 </Grid>
                             </DialogContent>
                             <DialogActions>
                                 {
-                                    getFieldProps('Id').value !== 0 ? (
+                                    getFieldProps('id').value !== 0 ? (
                                         <Button
-                                            disabled={!dirty || isValid}
+                                            // disabled={!dirty || isValid}
                                             type="submit" variant="contained" color="primary">
                                             שמור עריכת מוצר
                                         </Button>
@@ -253,6 +300,11 @@ export default function AdminProducts() {
                                         </Button>
                                     )
                                 }
+                                {/* <Button type="submit" variant="contained" color="primary" disabled={!dirty || !isValid}>
+                                            הוסף מוצר
+                                        </Button> */}
+
+
                                 <Button
                                     onClick={() => setOpen(false)}
                                     autoFocus>ביטול</Button>
