@@ -69,7 +69,7 @@ export default function SingleProductDesktop({ width, product, matches }) {
           <Stack direction={matches ? 'row' : 'column'}>
 
             <ProductActionButton onClick={() => setOpen(true)}>
-              <Tooltip placement="left" title="מסך מלא">
+              <Tooltip  title="מסך מלא">
                 <FitScreenIcon color="primary" />
               </Tooltip>
             </ProductActionButton>

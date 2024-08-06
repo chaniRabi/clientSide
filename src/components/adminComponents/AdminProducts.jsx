@@ -146,12 +146,12 @@ export default function AdminProducts() {
 
     const handelDeletProduct = async (id) => {
         Swal.fire({
-            title: "בטוח למחוק את כל העגלה?",
+            title: "בטוח למחוק מוצר מהרשימה ?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "כן, נקה את העגלה!"
+            confirmButtonText: "כן, מחק מוצר מהרשימה!"
           }).then((result) => {
             if (result.isConfirmed) {
             RemoveProduct(id).then(res => {

@@ -29,7 +29,7 @@ export const ProductImage = styled("img")(({width, src, theme }) => ({
 
 export const ProductActionButton = styled(IconButton)(() => ({
   background: Colors.white,
-  margin: 4,
+  position:"center",  margin: 4,
 }));
 
 export const ProductFavButton = styled(ProductActionButton)(({ isfav, theme }) => ({
