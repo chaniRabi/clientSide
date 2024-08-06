@@ -24,7 +24,7 @@ const Payment = () => {
         // Validate card number
         if (!cardNumber) newErrors.cardNumber = "מספר כרטיס הוא שדה חובה";
         else if (!/^\d{10}$/.test(cardNumber)) newErrors.cardNumber = "מספר כרטיס חייב להיות לפחות 10 ספרות";
-       
+
         // Validate expiry date
         if (!expiryDate) newErrors.expiryDate = "תוקף הכרטיס הוא שדה חובה";
         else if (!/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(expiryDate)) newErrors.expiryDate = "תוקף הכרטיס חייב להיות בפורמט MM/YY";
@@ -77,15 +77,15 @@ const Payment = () => {
     //         });
     //     }
     // };
-    const handlePayment = () => {
+    const handlePay = () => {
         if (cart.length === 0) {
             Swal.fire({
                 title: "עגלה ריקה",
-                text: "העגלה שלך ריקה. נא להוסיף מוצרים לעגלה לפני ביצוע התשלום.",
+                text: "העגלה שלך ריקה!",
                 icon: "warning",
                 confirmButtonText: 'OK',
-                // You can redirect the user to the shopping page here if needed
-                // e.g. window.location.href = '/shop';
+                // לפיתוח: ניווט לדף המוצרים
+
             });
             return;
         }
@@ -95,23 +95,23 @@ const Payment = () => {
         // if (Object.keys(validationErrors).length > 0) {
         //     setErrors(validationErrors);
         // } else {
-            const data = {
-                userId: loggedUser.id,
-                totalCost: total,
-                date: getCurrentDate(),
-                statusId: 1,
-                ordersProducts: cart.map(c => {return {...c, product: null}})
+        const data = {
+            userId: loggedUser.id,
+            totalCost: total,
+            date: getCurrentDate(),
+            statusId: 1,
+            ordersProducts: cart.map(c => { return { ...c, product: null } })
+        }
+        AddOrder(data).then(res => {
+            if (res.status === 200) {
+                Swal.fire({
+                    title: "תשלום בוצע בהצלחה!",
+                    text: `ע"ס ${total} ש"ח`,
+                    icon: "success"
+                });
+                setErrors({});
             }
-            AddOrder(data).then(res => {
-                if (res.status === 200) {
-                    Swal.fire({
-                        title: "תשלום בוצע בהצלחה!",
-                        text: `ע"ס ${total} ש"ח`,
-                        icon: "success"
-                    });
-                    setErrors({});
-                }
-            });
+        });
         // }
     };
 
@@ -177,9 +177,12 @@ const Payment = () => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button variant="contained" color="primary" onClick={handlePayment}>
+                <Button variant="contained" color="primary" onClick={handlePay}>
                     לחץ לביצוע התשלום
                 </Button>
+                {/* <Button variant="contained" color="primary" onClick={handlePayment}>
+                    לחץ לביצוע התשלום2
+                </Button> */}
             </CardActions>
         </Card>
     );

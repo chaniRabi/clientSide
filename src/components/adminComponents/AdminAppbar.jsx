@@ -90,7 +90,7 @@ export default function AdminAppbar({open, handleDrawerOpen}) {
           {!open && <Typography
           fontWeight={'bold'}
           color={Colors.black} variant="h6" noWrap component="div">
-            ניהול מערכת
+            לוח ניהול מערכת
           </Typography>}
           <Search/>
           <Search>

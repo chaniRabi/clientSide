@@ -26,7 +26,7 @@ export const Colors = {
     ///////////////
     // Grays
     ///////////////
-    background: '#F5F5F5',
+    // background: '#F5F5F5',
     dim_grey: "#696969",
     dove_gray: "#d5d5d5",
     body_bg: "#f3f6f9",

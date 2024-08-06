@@ -23,6 +23,9 @@ const contactSlice = createSlice({
     setMessage: (state, action) => {
       state.message = action.payload;
     },
+    deleteMessage:(state, action) => {
+      state.message = action.payload;
+    },
     clearForm: (state) => {
       state.name = '';
       state.email = '';
@@ -31,8 +34,9 @@ const contactSlice = createSlice({
     setIsSubmitted: (state, action) => {  // פעולה לניהול מצב השליחה
         state.isSubmitted = action.payload;
       },
+      
   },
 });
 
-export const { setName, setEmail, setMessage, clearForm, setIsSubmitted } = contactSlice.actions;
+export const { setName, setEmail, setMessage, clearForm, setIsSubmitted, deleteMessage } = contactSlice.actions;
 export default contactSlice.reducer;

@@ -16,8 +16,8 @@ import { useEffect, useState } from 'react';
 import { setProducts, addProduct, deleteProduct, editProduct } from '../../features/productsSlice';
 import { GetProducts, AddProduct, RemoveProduct, UpdateProduct } from '../../utils/product';
 import Swal from 'sweetalert2';
-import Search from '../Search';
-
+import {  InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 //פונקציה שתייבא את כל המוצרים
@@ -45,7 +45,8 @@ export default function AdminProducts() {
     console.log("!!!!", products);
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
-    const [isEdit, setIsEdit] = useState(false);
+    const [searchTerm, setSearchTerm] = useState(''); // הוספת סטייט לחיפוש
+    // const [isEdit, setIsEdit] = useState(false);
     // const [editProduct, setEditProduct] = useState(false);
     const [initialValues, setInitialValues] = useState({
         name: '',
@@ -152,20 +153,20 @@ export default function AdminProducts() {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "כן, מחק מוצר מהרשימה!"
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-            RemoveProduct(id).then(res => {
-                dispatch(deleteProduct(res))
-                Swal.fire({
-                  title: "בוצע בהצלחה",
-                  text: "המוצר נמחק מרשימת המוצרים!",
-                  icon: "success",
-                  timer: 1500,
-                  showConfirmButton: false,
-                });
-              }).catch(err=>console.log(err));
+                RemoveProduct(id).then(res => {
+                    dispatch(deleteProduct(res))
+                    Swal.fire({
+                        title: "בוצע בהצלחה",
+                        text: "המוצר נמחק מרשימת המוצרים!",
+                        icon: "success",
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+                }).catch(err => console.log(err));
             }
-          });
+        });
     }
 
     // const handelProductEditOpenDialog = (p) => {
@@ -173,6 +174,10 @@ export default function AdminProducts() {
     //     setIsEdit(true);
     //     handleClickOpen();
     // }
+    // סינון מוצרים לפי מחרוזת החיפוש
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <>
@@ -181,7 +186,23 @@ export default function AdminProducts() {
             <Button startIcon={<AddIcon />} variant='contained' color='secondary'
                 onClick={handleClickOpen}
             >הוסף מוצר </Button>
-            <Search />
+            {/* <Search /> */}
+            {/* שדה חיפוש */}
+            <TextField
+                label="חיפוש מוצר"
+                variant="outlined"
+                fullWidth
+                sx={{ my: 2 }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+            />
 
             <TableContainer>
                 <Table>
@@ -195,7 +216,9 @@ export default function AdminProducts() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {products?.map(p =>
+                        {/* {products?.map(p => */}
+                        {filteredProducts.map(p =>
+
                             <TableRow key={p.id}>
                                 <TableCell>{p.name}</TableCell>
                                 <TableCell>{p.price}</TableCell>

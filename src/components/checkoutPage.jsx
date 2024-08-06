@@ -7,8 +7,12 @@ import { useSelector, useDispatch } from 'react-redux';
 // import Paper from '@material-ui/core/Paper';
 // import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
-import { clearCart } from '../actions/cartActions';
+// import { clearCart } from '../actions/cartActions';
+
 import { Paper, Typography, Box, Grid, Button } from "@mui/material";
+import { CLEAR_CART } from '../features/productInCartSlice';
+import { useNavigate } from 'react-router-dom';
+import { getTotal } from '../productHelpers';
 
 // const useStyles = makeStyles((theme) => ({
 //   paper: {
@@ -23,35 +27,45 @@ import { Paper, Typography, Box, Grid, Button } from "@mui/material";
 
 const CheckoutPage = () => {
   // const classes = useStyles();
-  const cart = useSelector(state => state.cart);
+  // const cart = useSelector(state => state.cart);
+  const cart = useSelector(state => state.cart.items)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const products = useSelector(state => state.product.products);
+
+
 
   const handleCheckout = () => {
     // Handle checkout logic here
     // For example: send order to server, clear cart, etc.
-    dispatch(clearCart());
-    alert('Thank you for your purchase!');
+    dispatch(CLEAR_CART());
+    alert('תודה לך על שרכשת אצלנו!');
   };
+
+  const total = getTotal(products, cart)
+
 
   return (
     <Paper>
       <Typography variant="h5" component="h3">
-        Checkout
+        סיום רכישה
       </Typography>
       <Typography variant="body1">
-        Total Items: {cart.totalItems}
+        סה"כ פריטים: {cart?.length}
       </Typography>
-      <Typography variant="body1">
-        Total Price: ${cart.totalPrice.toFixed(2)}
-      </Typography>
+      <Typography >
+          סה"כ לתשלום: {total} ש"ח
+        </Typography>
       {/* Add more checkout details like shipping address, payment method, etc. */}
-      <Button
+      {/* <Button
         variant="contained"
         color="primary"
         onClick={handleCheckout}
       >
-        Confirm Order
-      </Button>
+        אשר הזמנה
+      </Button> */}
+      <Button variant="contained" onClick={() => navigate('/payment')}>לביצוע התשלום</Button>
+
     </Paper>
   );
 };

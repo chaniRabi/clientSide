@@ -108,7 +108,7 @@ export default function NavDrawer({ open, setOpen }) {
           <ListItem sx={{ display: 'block' }}>
             <MyListItemButton
               text={"dashboard"}
-              label = {"לוח ניהול"}
+              label = {"ניהול הזמנות"}
               icon={<DashboardIcon />}
               handleNavbarItemClicked={handleNavbarItemClicked}
               selected={selectedItem.includes('dashboard')}

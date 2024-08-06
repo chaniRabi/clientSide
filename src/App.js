@@ -12,8 +12,9 @@ import categoriesSlice from './features/categoriesSlice';
 import ordersSlice from './features/ordersSlice';
 import contactSlice from './features/contactSlice';
 import searchSlice from './features/searchSlice';
-import ForgotPassword from './components/ForgotPassword';
+import customersReducer from './features/costumerSlice';
 
+import ForgotPassword from './components/ForgotPassword';
 import HomePage from './components/homePage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -24,9 +25,11 @@ import Order from './components/order';
 import ContactForm from './components/contactForm';
 import AboutUs from './components/AboutUs';
 import Payment from './components/Payment';
+import Checkout from './components/checkoutPage';
+
 
 import theme from "./styles/themeStyle";
-// import theme from "./styles/adminTheme"
+import themeAdmin from "./styles/adminTheme";
 import AdminApp from './components/adminComponents/AdminApp';
 import Dashboard from './components/adminComponents/Dashboard';
 import AdminProducts from './components/adminComponents/AdminProducts';
@@ -34,6 +37,7 @@ import Settings from './components/adminComponents/Settings';
 import ProductManagement from './components/ProductManagement';
 import OrderManagement from './components/OrderManagement';
 import Conditions from './components/Conditions';
+import MessagesList from './components/adminComponents/MessagesList';
 
 const myStore = configureStore({
   reducer: {
@@ -44,6 +48,8 @@ const myStore = configureStore({
     orders: ordersSlice,
     contact: contactSlice,
     search: searchSlice,
+    customers: customersReducer,
+
   }
 })
 
@@ -54,7 +60,7 @@ function App() {
 
   return (
     <Provider store={myStore}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme} themeAdmin={themeAdmin}>
         <Container maxWidth="xl" sx={{ background: '#fff' }}>
           <Router>
             <Routes>
@@ -65,6 +71,8 @@ function App() {
               <Route path="/" element={<HomePage />}>
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/payment" element={<Payment />} />
+                <Route path="/checkout" element={<Checkout />} />
+
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/" element={<Categories />} />
                 <Route path="/products" element={<Products />} />
@@ -77,6 +85,7 @@ function App() {
               <Route path="/admin" element={<AdminApp />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="products" element={<AdminProducts />} />
+                <Route path='message' element={<MessagesList/>}/>
                 <Route path="settings" element={<Settings />} />
                 <Route path="manage-products" element={<ProductManagement />} />
                 <Route path="manage-orders" element={<OrderManagement />} />

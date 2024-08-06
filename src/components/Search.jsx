@@ -51,5 +51,6 @@ export default function Search({ fromNavBar = false }) {
         <SearchIcon style={{ fontSize: 30 }} />
       </Button>
     </Box>
+    
   );
 }
