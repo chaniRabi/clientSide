@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import AdminAddProduct from './AdminAddProduct';
+import { List, ListItem, ListItemText } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -19,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function AdminEditProductDialog({open, handleClose, isEdit, editProduct}) {
+export default function AdminEditProductDialog({open, handleClose, order}) {
 
   return (
     <>
@@ -34,7 +35,7 @@ export default function AdminEditProductDialog({open, handleClose, isEdit, editP
       >
         {/* .... */}
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          {isEdit ? `עריכת מוצר ${editProduct?.name}`: "הוספת מוצר"}
+          פרטי הזמנה
         </DialogTitle>
         {/* <IconButton
           aria-label="close"
@@ -49,20 +50,23 @@ export default function AdminEditProductDialog({open, handleClose, isEdit, editP
           <CloseIcon />
         </IconButton> */}
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          {/* <Typography gutterBottom>
+           {JSON.stringify(order)}
+          </Typography> */}
+          <List>
+          {order.ordersProducts.map(orderProduct => (
+            <React.Fragment key={orderProduct.id}>
+              <ListItem>
+                <ListItemText
+                  primary={orderProduct.product?.name}
+                  secondary={`כמות: ${orderProduct.amount} | מחיר: ${(orderProduct.product?.price) * orderProduct.amount} ש"ח`}
+                  // secondary={`${item.price} ש"ח`}
+                  sx={{ ml: 2, textAlign:'right' }}
+                />
+              </ListItem>
+              </React.Fragment>))}
+            </List>
+            <Typography>סהכ לתשלום{order?.totalCost}</Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

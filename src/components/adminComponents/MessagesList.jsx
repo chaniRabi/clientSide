@@ -3,18 +3,20 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Grid, Button, Typography, Paper, CircularProgress } from '@mui/material';
-import { deleteMessage, setMessage } from '../../features/contactSlice';
+import { deleteMessage, setMessages } from '../../features/contactSlice';
 import {  GetContcts } from '../../utils/lookupUtil'; 
 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const MessagesList = () => {
   const dispatch = useDispatch();
-  const messages = useSelector(state => state.messages.messages);
-
+   const messages = useSelector(state =>  state.contact.messages);
+  // console.log(messages);
+//const messages=[]
   const loadMessages = async () => {
     const data = await GetContcts();
-    dispatch(setMessage(data));
+    console.log(data);
+    dispatch(setMessages(data));
   }
 
   useEffect(() => {
@@ -54,12 +56,12 @@ const MessagesList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {messages.map((message) => (
+                  {messages != null && messages.map((message) => (
                     <TableRow key={message.id}>
                       <TableCell>{message.id}</TableCell>
-                      <TableCell>{message.sender}</TableCell>
-                      <TableCell>{message.subject}</TableCell>
-                      <TableCell>{message.content}</TableCell>
+                      <TableCell>{message.name}</TableCell>
+                      <TableCell>{message.massages}</TableCell>
+                      <TableCell>{message.phone}</TableCell>
                       <TableCell>
                         <Button variant="outlined" color="secondary" onClick={() => handleDeleteMessage(message.id)}>
                           מחק

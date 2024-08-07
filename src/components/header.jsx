@@ -14,6 +14,8 @@ import Search from './Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoritesList from './Favorites';
 
 const Header = () => {
   const theme = useTheme();
@@ -40,30 +42,37 @@ const Header = () => {
           className='image'
           src={logo} alt="logo" />
         <Search fromNavBar={true}></Search>
+
+        <Tooltip title="המוצרים שאני אוהב">
+          <IconButton edge="end" component={Link} to="/favorite">
+            <FavoriteIcon color='secondary' />
+          </IconButton>
+        </Tooltip>
+
       </div>
 
       <Nav />
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        
-          {/* // isLoggedIn ? (
+
+        {/* // isLoggedIn ? (
           //   <Tooltip title="התנתקות">
           //     <IconButton edge="end" color="inherit" component={Link} to="/signIn" label="התנתק">
           //       <LogoutIcon style={{ fontSize: 40 }} />
           //     </IconButton>
           //   </Tooltip>
           // ) : */}
-          {logedUser?.tipeUser == "admin" && <Tooltip title=" מנהל מערכת">
+        {logedUser?.tipeUser == "admin" && <Tooltip title=" מנהל מערכת">
           <Link to="/admin" style={{ color: "white" }}>
             <AdminPanelSettingsIcon style={{ fontSize: 40 }} />
           </Link>
         </Tooltip>}
-          {(
-            <Tooltip title="התחברות">
-              <IconButton edge="end" color="inherit" component={Link} to="/signIn">
-                <PersonIcon style={{ fontSize: 40 }} />
-              </IconButton>
-            </Tooltip>
-          )}
+        {(
+          <Tooltip title="התחברות">
+            <IconButton edge="end" color="inherit" component={Link} to="/signIn">
+              <PersonIcon style={{ fontSize: 40 }} />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title="עגלת קניות">
           <Link to="/cart" style={{ color: "white" }}>
             <CartIcon style={{ fontSize: 40 }} />

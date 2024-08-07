@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardActions, Button, Typography, TextField, Box } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { AddOrder } from '../utils/order';
 import { getTotal } from '../productHelpers';
+import { CLEAR_CART } from '../features/productInCartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
     const [cardNumber, setCardNumber] = useState('');
@@ -15,7 +17,8 @@ const Payment = () => {
     console.log("cart", cart)
     const loggedUser = useSelector(state => state.user.logedUser);//בשביל שימוש מהסלייס - לזהות את המשתמש ונלקח מסלייס
     const products = useSelector(state => state.product.products);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const total = getTotal(products, cart)
 
     const validate = () => {
@@ -96,20 +99,27 @@ const Payment = () => {
         //     setErrors(validationErrors);
         // } else {
         const data = {
+            id: 0,
             userId: loggedUser.id,
             totalCost: total,
             date: getCurrentDate(),
             statusId: 1,
-            ordersProducts: cart.map(c => { return { ...c, product: null } })
+            ordersProducts: cart.map(c => { return { ...c, id: 0, product: null } })
         }
         AddOrder(data).then(res => {
             if (res.status === 200) {
                 Swal.fire({
-                    title: "תשלום בוצע בהצלחה!",
+                    title: "המשלוח יתבצע 5 ימי עסקים\n תודה שרכשת אצלינו:) - תשלום בוצע בהצלחה!",
                     text: `ע"ס ${total} ש"ח`,
-                    icon: "success"
-                });
-                setErrors({});
+                    icon: "success",
+                    timer: 3000
+                }).then((result)=> {
+                    if(result.isConfirmed || result.dismiss === Swal.DismissReason.timer){
+                        setErrors({});
+                        dispatch(CLEAR_CART());
+                        navigate("/");
+                    }
+                })
             }
         });
         // }
@@ -122,12 +132,13 @@ const Payment = () => {
                 <Typography color="textSecondary" gutterBottom>
                     פרטי תשלום
                 </Typography>
-                <form noValidate autoComplete="off">
+                <form autoComplete="off">
                     <Box mb={2}>
                         <TextField
                             label="מספר כרטיס"
                             variant="outlined"
                             fullWidth
+                            required
                             margin="normal"
                             value={cardNumber}
                             onChange={(e) => setCardNumber(e.target.value)}
@@ -140,6 +151,7 @@ const Payment = () => {
                             label="תוקף (MM/YY)"
                             variant="outlined"
                             fullWidth
+                            required
                             margin="normal"
                             value={expiryDate}
                             onChange={(e) => setExpiryDate(e.target.value)}

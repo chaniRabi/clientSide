@@ -22,6 +22,7 @@ import { ADD_ITEM, REMOVE_ITEM, SET_LOGGED_PRODUCTINCART, CLEAR_CART } from '../
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { getProductById, getTotal } from '../productHelpers';
+import EmptyCartMessage from './EmptyCartMessage';
 
 
 const Cart = () => {
@@ -100,7 +101,7 @@ const Cart = () => {
         <Typography color="textSecondary" gutterBottom>
           סל קניות:
         </Typography>
-        <List>
+        {cart.length ? (<List>
           {cart.map(item => (
             <React.Fragment key={item.id}>
               <ListItem>
@@ -108,7 +109,7 @@ const Cart = () => {
                   primary={item.product?.name}
                   secondary={`כמות: ${item.amount} | מחיר: ${(item.product?.price) * item.amount} ש"ח`}
                   // secondary={`${item.price} ש"ח`}
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2, textAlign:'right' }}
                 />
                 <Button variant="contained" color="secondary" onClick={() => removeFromCart(item.id)} startIcon={<DeleteIcon sx={{ ml: 1 }} />} >
                   הסר מהסל
@@ -120,18 +121,26 @@ const Cart = () => {
               <Divider />
             </React.Fragment>
           ))}
-        </List>
-        <Typography >
+        </List>):
+        <EmptyCartMessage/>
+        //  <div style={{height:'50px', textAlign:'center'}}>
+        // <Typography>אין מוצרים בעגלה</Typography>
+        // </div>
+        }
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent:'end' }, gap: 2 }}>
+        <Typography sx={{fontSize:'25px'}}>
           סה"כ לתשלום: {total.toFixed(2)} ש"ח
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-
-        <Button variant="contained" onClick={handelClearCart}>נקה את סל הקניות</Button>
-        <Button variant="contained" onClick={() => navigate('/payment')}>לתשלום</Button>
-        <Button variant="contained" onClick={() => navigate('/products')}>המשך בקנייה</Button>
         </Box>
         </CardContent>
       <CardActions>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent:'end' }, gap: 2 }}>
+
+        {cart.length ?(<><Button variant="contained" onClick={handelClearCart}>נקה את סל הקניות</Button>
+        <Button variant="contained" onClick={() => navigate('/payment')}>לתשלום</Button>
+        <Button variant="contained" onClick={() => navigate('/products')}>המשך בקנייה</Button></>):
+        <Button variant="contained" onClick={() => navigate('/products')}>התחל בקניה</Button>}
+        </Box>
       </CardActions>
     </Card>
 

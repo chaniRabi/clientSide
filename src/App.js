@@ -13,6 +13,8 @@ import ordersSlice from './features/ordersSlice';
 import contactSlice from './features/contactSlice';
 import searchSlice from './features/searchSlice';
 import customersReducer from './features/costumerSlice';
+import favoritesReducer from './features/favoritesSlice';
+
 
 import ForgotPassword from './components/ForgotPassword';
 import HomePage from './components/homePage';
@@ -38,6 +40,8 @@ import ProductManagement from './components/ProductManagement';
 import OrderManagement from './components/OrderManagement';
 import Conditions from './components/Conditions';
 import MessagesList from './components/adminComponents/MessagesList';
+import FavoritesList from './components/Favorites';
+import CustomersList from './components/adminComponents/CustomersList';
 
 const myStore = configureStore({
   reducer: {
@@ -49,6 +53,8 @@ const myStore = configureStore({
     contact: contactSlice,
     search: searchSlice,
     customers: customersReducer,
+    favorites: favoritesReducer,
+
 
   }
 })
@@ -72,6 +78,8 @@ function App() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/favorite" element={<FavoritesList />} />
+
 
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/" element={<Categories />} />
@@ -81,11 +89,13 @@ function App() {
                 <Route path="/conditions" element={<Conditions />} />
 
               </Route>
-              
+
               <Route path="/admin" element={<AdminApp />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="products" element={<AdminProducts />} />
-                <Route path='message' element={<MessagesList/>}/>
+                <Route path='message' element={<MessagesList />} />
+                <Route path='customers' element={<CustomersList />} />
+
                 <Route path="settings" element={<Settings />} />
                 <Route path="manage-products" element={<ProductManagement />} />
                 <Route path="manage-orders" element={<OrderManagement />} />
@@ -94,6 +104,7 @@ function App() {
           </Router>
         </Container>
       </ThemeProvider>
+
     </Provider>
   );
 }

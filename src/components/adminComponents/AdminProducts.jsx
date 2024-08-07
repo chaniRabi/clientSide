@@ -48,15 +48,15 @@ export default function AdminProducts() {
     const [searchTerm, setSearchTerm] = useState(''); // הוספת סטייט לחיפוש
     // const [isEdit, setIsEdit] = useState(false);
     // const [editProduct, setEditProduct] = useState(false);
-    const [initialValues, setInitialValues] = useState({
+    let productEmpty = {
         name: '',
         price: 0,
         quantity: 0,
         categoryId: 9,
         description: '',
         image: '',
-        id: 0
-    });
+        id: 0}
+    const [initialValues, setInitialValues] = useState(productEmpty);
 
     // פונקציה לשליחת הטופס
     const handleSubmit = async (values, { resetForm }) => {
@@ -156,14 +156,16 @@ export default function AdminProducts() {
         }).then((result) => {
             if (result.isConfirmed) {
                 RemoveProduct(id).then(res => {
-                    dispatch(deleteProduct(res))
-                    Swal.fire({
-                        title: "בוצע בהצלחה",
-                        text: "המוצר נמחק מרשימת המוצרים!",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false,
-                    });
+                    if(res == true){
+                        dispatch(deleteProduct(id))
+                        Swal.fire({
+                            title: "בוצע בהצלחה",
+                            text: "המוצר נמחק מרשימת המוצרים!",
+                            icon: "success",
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                    }
                 }).catch(err => console.log(err));
             }
         });
@@ -184,7 +186,7 @@ export default function AdminProducts() {
             {/* <AdminEditProductDialog open={open} handleClose={handleClose} isEdit={isEdit} editProduct={editProduct}/> */}
             <Typography sx={{ md: 1 }} variant="h4">מוצרים</Typography>
             <Button startIcon={<AddIcon />} variant='contained' color='secondary'
-                onClick={handleClickOpen}
+                onClick={() => {setInitialValues(productEmpty); handleClickOpen()}}
             >הוסף מוצר </Button>
             {/* <Search /> */}
             {/* שדה חיפוש */}
@@ -253,7 +255,7 @@ export default function AdminProducts() {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ dirty, isValid, getFieldProps }) => (
+                    {({ dirty, isValid, getFieldProps, errors, touched }) => (
                         <Form>
                             <DialogContent>
                                 <Grid container spacing={2}>
@@ -265,8 +267,10 @@ export default function AdminProducts() {
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="name" />}
-                                            error={Boolean(<ErrorMessage name="name" />)}
+                                            helperText={touched.name && errors.name ? errors.name : ""}
+                                            error={touched.name && Boolean(errors.name)}
+                                            // helperText={<ErrorMessage name="name" />}
+                                            // error={Boolean(<ErrorMessage name="name" />)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -278,8 +282,10 @@ export default function AdminProducts() {
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="price" />}
-                                            error={Boolean(<ErrorMessage name="price" />)}
+                                            // helperText={<ErrorMessage name="price" />}
+                                            // error={Boolean(<ErrorMessage name="price" />)}
+                                            helperText={touched.price && errors.price ? errors.price : ""}
+                                            error={touched.price && Boolean(errors.price)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>

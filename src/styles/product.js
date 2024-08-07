@@ -30,6 +30,7 @@ export const ProductImage = styled("img")(({width, src, theme }) => ({
 export const ProductActionButton = styled(IconButton)(() => ({
   background: Colors.white,
   position:"center",  margin: 4,
+  
 }));
 
 export const ProductFavButton = styled(ProductActionButton)(({ isfav, theme }) => ({
@@ -84,10 +85,10 @@ export const ProductMetaWrapper = styled(Box)(({theme}) => ({
 
 export const ProductActionsWrapper = styled(Box)(({ show, theme }) => ({ 
   [theme.breakpoints.up("md")]: {
-    display: show ? 'visible' : 'none',
+    // display: show ? 'visible' : 'none',
     position: "absolute",
     right: 0,
-    top: '20%',
+    top: '10%',
     animation: show && `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   }
 }));
@@ -95,7 +96,7 @@ export const ProductActionsWrapper = styled(Box)(({ show, theme }) => ({
 export const ProductActionsWrapperChat = styled(Box)(({ show, theme }) => ({ 
   [theme.breakpoints.up("md")]: {
     display: show ? 'visible' : 'none',
-    right: 0,
+    left: 0,
     top: '20%',
     animation: show && `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   }

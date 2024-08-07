@@ -3,9 +3,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Grid, Button, Typography, Paper, CircularProgress } from '@mui/material';
-import { fetchCustomers, deleteCustomer } from '../../features/customersSlice';
+import {  deleteCustomer, setCustomers } from '../../features/costumerSlice';
 import { GetUsers  } from '../../utils/usersAPI'; 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+
 
 const CustomersList = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const CustomersList = () => {
 
   const loadCustomers = async () => {
     const data = await GetUsers();
-    dispatch(fetchCustomers(data));
+    dispatch(setCustomers(data));
   }
 
   useEffect(() => {

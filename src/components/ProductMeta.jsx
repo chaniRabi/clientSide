@@ -12,6 +12,7 @@ export default function ProductMeta({ product, matches }) {
         <Typography variant={matches ? "caption" : "subtitle2"}>
            {product.price} ש"ח
         </Typography>
+        
       </ProductMetaWrapper>
     );
 }

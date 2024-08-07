@@ -3,8 +3,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
-    orders: []
-    
+    orders: [],
+    status: []
 }
 
 export const ordersSlice = createSlice({
@@ -25,10 +25,13 @@ export const ordersSlice = createSlice({
         },
         deleteOrder: (state, action) => {
             state.orders = state.orders.filter(order => order.id !== action.payload);
-        }
+        },
+        setStatus: (state, action) => {
+            state.status = action.payload;
+        },
     },
 });
 
-export const { setOrders, addOrder, updateOrderStatus, deleteOrder } = ordersSlice.actions;
+export const { setOrders, addOrder, updateOrderStatus, deleteOrder, setStatus } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

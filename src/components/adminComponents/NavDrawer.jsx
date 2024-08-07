@@ -97,7 +97,7 @@ export default function NavDrawer({ open, setOpen }) {
         <Typography
           fontWeight={'bold'}
           color={Colors.light_gray} variant="h6" noWrap component="div">
-            ניהול מערכת 
+            לוח ניהול מערכת 
           </Typography>}
            <IconButton onClick={handleDrawerClose}>
             {/* {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />} */}

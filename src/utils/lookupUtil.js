@@ -6,7 +6,10 @@ const GetContcts = async()=> {
 
 const AddContct = async(data)=>{
     return await api.post('Lookup/AddContct', data).then(res => res);
-
 }
 
-export {GetContcts, AddContct}
+const GetAllStatus = async()=>{
+    return await api.get('Lookup/Status').then(res => res.data);
+}
+
+export {GetContcts, AddContct, GetAllStatus}

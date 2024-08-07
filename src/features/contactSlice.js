@@ -7,7 +7,7 @@ const initialState = {
   email: '',
   message: '',
   isSubmitted: false,  // מצב חדש לניהול האם הטופס נשלח
-
+  messages: []
 };
 
 const contactSlice = createSlice({
@@ -34,9 +34,11 @@ const contactSlice = createSlice({
     setIsSubmitted: (state, action) => {  // פעולה לניהול מצב השליחה
         state.isSubmitted = action.payload;
       },
-      
+      setMessages: (state, action) => {
+        state.messages = action.payload;
+      },
   },
 });
 
-export const { setName, setEmail, setMessage, clearForm, setIsSubmitted, deleteMessage } = contactSlice.actions;
+export const { setName, setEmail, setMessage, clearForm, setIsSubmitted, deleteMessage, setMessages } = contactSlice.actions;
 export default contactSlice.reducer;

@@ -98,7 +98,8 @@ const ProductButtons = ({ product }) => {
                     showConfirmButton: false,
                     customClass: {
                         popup: 'custom-swal'
-                    }
+                    },
+                    timer: 1000
                 });
             })
         }
@@ -109,11 +110,12 @@ const ProductButtons = ({ product }) => {
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: "המוצר נוסף בהצלחה לסל",
+                        title: "המוצר התעדכן בהצלחה",
                         showConfirmButton: false,
                         customClass: {
                             popup: 'custom-swal'
-                        }
+                        },
+                        timer: 1000
                     });
                 }
             })

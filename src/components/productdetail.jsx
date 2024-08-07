@@ -27,6 +27,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProductButtons from "./ProductButtons";
 
+// סטיילים מותאמים אישית
+const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    padding: theme.spacing(2, 3),
+    textAlign: 'center',
+}));
+
+const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
+    padding: theme.spacing(2, 3),
+    textAlign: 'center',
+}));
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -40,11 +52,11 @@ const ProductDetailWrapper = styled(Box)(({ theme }) => ({
 const ProductDetailInfoWrapper = styled(Box)(() => ({
     display: "flex",
     flexDirection: "column",
-    maxWidth: 500,
+    maxWidth:1000,
     lineHeight: 1.5,
 }));
 
-export default function ProductDetail({ product }) {
+export default function ProductDetail({open, onClose, product }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     const dispatch = useDispatch();
@@ -70,11 +82,11 @@ export default function ProductDetail({ product }) {
                 display="flex"
                 alignItems="center"
                 sx={{ mt: 4, color: Colors.light }}
+            
             >
                 <FavoriteIcon sx={{ mr: 2 }} />
                 הוסף לרשימת המשאלות
             </Box>
-            {/* הסרת השורות של האייקונים של הרשתות החברתיות */}
         </ProductDetailInfoWrapper>
     </ProductDetailWrapper>
     );
