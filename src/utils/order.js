@@ -21,5 +21,9 @@ const UpdateOrder = async(id, orderUpdate) => {
 return await api.put(`Order/${id}`, orderUpdate).then(res => res);
 }
 
-export {GetOrder,getOrderyById, AddOrder,RemoveOrder, UpdateOrder}
+const GetOrdersByUserId = async(id)=>{
+    return await api.get(`Order/getOrdersByUser/${id}`).then(res => res.data);
+}
+
+export {GetOrder,getOrderyById, AddOrder,RemoveOrder, UpdateOrder, GetOrdersByUserId}
 

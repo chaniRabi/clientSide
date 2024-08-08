@@ -42,6 +42,7 @@ import Conditions from './components/Conditions';
 import MessagesList from './components/adminComponents/MessagesList';
 import FavoritesList from './components/Favorites';
 import CustomersList from './components/adminComponents/CustomersList';
+import MyOrders from './components/MyOrders';
 
 const myStore = configureStore({
   reducer: {
@@ -79,7 +80,7 @@ function App() {
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorite" element={<FavoritesList />} />
-
+                <Route path="/my-orders" element={<MyOrders/>}/>
 
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/" element={<Categories />} />
