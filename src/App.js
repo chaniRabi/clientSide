@@ -27,7 +27,8 @@ import Order from './components/order';
 import ContactForm from './components/contactForm';
 import AboutUs from './components/AboutUs';
 import Payment from './components/Payment';
-import Checkout from './components/checkoutPage';
+import Checkout from './components/oldComponent/checkoutPage';
+import OrderConfirmation from './components/OrderConfirmation';
 
 
 import theme from "./styles/themeStyle";
@@ -88,6 +89,8 @@ function App() {
                 <Route path="/order" element={<Order />} />
                 <Route path="/contact" element={<ContactForm />} />
                 <Route path="/conditions" element={<Conditions />} />
+                <Route path="/orderConfirmation" element={<OrderConfirmation />} />
+
 
               </Route>
 

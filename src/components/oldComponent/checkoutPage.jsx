@@ -10,9 +10,9 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { clearCart } from '../actions/cartActions';
 
 import { Paper, Typography, Box, Grid, Button } from "@mui/material";
-import { CLEAR_CART } from '../features/productInCartSlice';
+import { CLEAR_CART } from '../../features/productInCartSlice';
 import { useNavigate } from 'react-router-dom';
-import { getTotal } from '../productHelpers';
+import { getTotal } from '../../productHelpers';
 
 // const useStyles = makeStyles((theme) => ({
 //   paper: {

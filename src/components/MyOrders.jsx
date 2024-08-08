@@ -15,41 +15,46 @@ import Select from '@mui/material/Select';
 // import AdminEditProductDialog from './AdminEditProductDialog';
 import { GetOrdersByUserId, getOrderyById } from '../utils/order';
 import AdminEditProductDialog from './adminComponents/AdminEditProductDialog';
+import { setOrders, setStatus } from '../features/ordersSlice';
+import AdminOrderDialog from './MyOrderDialog';
 
 //דף ראשי המציג סיכומים וסטטיסטיקות כלליות על החנות והמכירות
 const MyOrders = () => {
-//   const dispatch = useDispatch();
-  //  const products = useSelector(state => state.products.products);
-//   const orders = useSelector(state => state.orders.orders);
-//   const status = useSelector(state => state.orders.status);
+  const dispatch = useDispatch();
+  // const products = useSelector(state => state.products.products);
+  const orders = useSelector(state => state.orders.orders);
+  const status = useSelector(state => state.orders.status);
   const [open, setOpen] = useState(false);
-  const [orderDetails, setOrderDetails] = useState(null);
-  const [status, setStatus]= useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
+  // const [status, setStatus]= useState([]);
   const logedUser = useSelector(state => state.user.logedUser);
-
 
   const handleClose = () => {
     setOpen(false);
   }
 
   const GetOrderList = async () => {
-    if(logedUser){
-    const data = await GetOrdersByUserId(logedUser.id);
-    setOrderDetails(data)}
-    
+    if (logedUser) {
+      const data = await GetOrdersByUserId(logedUser.id);
+      dispatch(setOrders(data));
+
+      // setOrderDetails(data)
+    }
+
     // dispatch(setOrders(data));
   }
 
   const GetStatus = async () => {
     const data = await GetAllStatus();
-    // dispatch(setStatus(data));
+    dispatch(setStatus(data));
   }
 
   useEffect(() => {//הפעולות שיעשה שהדף נטען
     GetOrderList();
     GetStatus();
-  },[]);
-//    [dispatch, orders.length]);
+  }, 
+  // []);
+     [dispatch, orders.length]);
 
   if (orderDetails?.length === 0) {
     return (
@@ -65,22 +70,23 @@ const MyOrders = () => {
     setOrderDetails(order);
     setOpen(true);
   }
+  
 
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
-      {open && <AdminEditProductDialog open={open} handleClose={handleClose} order={orderDetails}/>}
+      {open && <AdminOrderDialog open={open} handleClose={handleClose} order={orderDetails} />}
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Typography variant="h4" gutterBottom>
             דף ראשי
           </Typography>
-        </Grid>
+        </Grid> */}
 
-      
+
         <Grid item xs={6}>
           <Paper sx={{ padding: 2 }}>
             <Typography variant="h6" gutterBottom>
-              הזמנות
+              ההזמנות שלי
             </Typography>
             {/* <Button variant="contained" color="primary" onClick={handleAddOrder}>
               הוסף הזמנה
@@ -89,19 +95,15 @@ const MyOrders = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>שם לקוח</TableCell>
-                    <TableCell>תאריך</TableCell>
-                    <TableCell>סה"כ</TableCell>
-                    <TableCell>סטטוס הזמנה</TableCell>
+                    <TableCell>תאריך שבוצעה ההשמנה</TableCell>
+                    <TableCell>סה"כ שולם</TableCell>
+                    <TableCell>סטטוס מצב הזמנה</TableCell>
                     <TableCell>לצפיה בהזמנה</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {orderDetails&&orderDetails.map((order) => (
+                  { orders.map((order) => (
                     <TableRow key={order.id}>
-                      <TableCell>{order.id}</TableCell>
-                      <TableCell>{order.userId}</TableCell>
                       <TableCell>{order.date}</TableCell>
                       <TableCell>{order.totalCost}</TableCell>
                       <TableCell>
@@ -111,11 +113,11 @@ const MyOrders = () => {
                         {/* <Button variant="outlined" color="secondary" onClick={() => handleDeleteOrder(order.id)}>
                           Delete
                         </Button> */}
-                
+
                       </TableCell>
-                       <Button variant="outlined" color="secondary" onClick={() => handleDetailsOrder(order)}>
-                          לצפיה בהזמנה
-                        </Button>
+                      <Button variant="outlined" color="secondary" onClick={() => handleDetailsOrder(order)}>
+                        לצפיה בפרטי ההזמנה
+                      </Button>
                     </TableRow>
                   ))}
                 </TableBody>

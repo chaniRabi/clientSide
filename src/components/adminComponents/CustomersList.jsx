@@ -1,16 +1,19 @@
 
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Grid, Button, Typography, Paper, CircularProgress } from '@mui/material';
-import {  deleteCustomer, setCustomers } from '../../features/costumerSlice';
-import { GetUsers  } from '../../utils/usersAPI'; 
+import { Box, Grid, Button, Typography, Paper, CircularProgress, TextField } from '@mui/material';
+import { deleteCustomer, setCustomers } from '../../features/costumerSlice';
+import { GetUsers } from '../../utils/usersAPI';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-
+import { InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const CustomersList = () => {
   const dispatch = useDispatch();
   const customers = useSelector(state => state.customers.customers);
+  const [searchTerm, setSearchTerm] = useState(''); // הוספת סטייט לחיפוש
+
 
   const loadCustomers = async () => {
     const data = await GetUsers();
@@ -34,6 +37,11 @@ const CustomersList = () => {
     dispatch(deleteCustomer(id));
   };
 
+  // סינון מוצרים לפי מחרוזת החיפוש
+  const filteredCustomers = customers.filter((customer) =>
+    customer.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
       <Grid container spacing={3}>
@@ -41,6 +49,21 @@ const CustomersList = () => {
           <Typography variant="h4" gutterBottom>
             לקוחות
           </Typography>
+          <TextField
+                label="חיפוש שם לקוח"
+                variant="outlined"
+                fullWidth
+                sx={{ my: 2 }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                    ),
+                }}
+            />
           <Paper sx={{ padding: 2 }}>
             <TableContainer component={Paper} sx={{ marginTop: 2 }}>
               <Table>
@@ -55,7 +78,7 @@ const CustomersList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {customers.map((customer) => (
+                  {filteredCustomers.map((customer) => (
                     <TableRow key={customer.id}>
                       <TableCell>{customer.id}</TableCell>
                       <TableCell>{customer.name}</TableCell>

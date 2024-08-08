@@ -3,7 +3,7 @@
 
 
 
-import { Box, Button, CircularProgress, colors, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, Button, CircularProgress, colors, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import { Colors } from '../../styles/adminTheme';
@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { setProducts, addProduct, deleteProduct, editProduct } from '../../features/productsSlice';
 import { GetProducts, AddProduct, RemoveProduct, UpdateProduct } from '../../utils/product';
 import Swal from 'sweetalert2';
-import {  InputAdornment } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 
@@ -55,7 +55,8 @@ export default function AdminProducts() {
         categoryId: 9,
         description: '',
         image: '',
-        id: 0}
+        id: 0
+    }
     const [initialValues, setInitialValues] = useState(productEmpty);
 
     // פונקציה לשליחת הטופס
@@ -156,7 +157,7 @@ export default function AdminProducts() {
         }).then((result) => {
             if (result.isConfirmed) {
                 RemoveProduct(id).then(res => {
-                    if(res == true){
+                    if (res == true) {
                         dispatch(deleteProduct(id))
                         Swal.fire({
                             title: "בוצע בהצלחה",
@@ -181,13 +182,26 @@ export default function AdminProducts() {
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+
     return (
         <>
             {/* <AdminEditProductDialog open={open} handleClose={handleClose} isEdit={isEdit} editProduct={editProduct}/> */}
             <Typography sx={{ md: 1 }} variant="h4">מוצרים</Typography>
-            <Button startIcon={<AddIcon />} variant='contained' color='secondary'
-                onClick={() => {setInitialValues(productEmpty); handleClickOpen()}}
-            >הוסף מוצר </Button>
+            <Button
+                startIcon={<AddIcon />}
+                variant='contained' color='secondary'
+                onClick={() => {
+                    setInitialValues(productEmpty);
+                    handleClickOpen()
+                }} sx={{
+                    '& .MuiButton-startIcon': {
+                        marginRight: 1
+                    }
+                }}
+            >
+                הוסף מוצר
+            </Button>
+
             {/* <Search /> */}
             {/* שדה חיפוש */}
             <TextField
@@ -199,11 +213,11 @@ export default function AdminProducts() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
                     ),
-                  }}
+                }}
             />
 
             <TableContainer>
@@ -269,8 +283,8 @@ export default function AdminProducts() {
                                             variant="outlined"
                                             helperText={touched.name && errors.name ? errors.name : ""}
                                             error={touched.name && Boolean(errors.name)}
-                                            // helperText={<ErrorMessage name="name" />}
-                                            // error={Boolean(<ErrorMessage name="name" />)}
+                                        // helperText={<ErrorMessage name="name" />}
+                                        // error={Boolean(<ErrorMessage name="name" />)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -296,8 +310,10 @@ export default function AdminProducts() {
                                             required
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="quantity" />}
-                                            error={Boolean(<ErrorMessage name="quantity" />)}
+                                            // helperText={<ErrorMessage name="quantity" />}
+                                            // error={Boolean(<ErrorMessage name="quantity" />)}
+                                            helperText={touched.quantity && errors.quantity ? errors.quantity : ""}
+                                            error={touched.quantity && Boolean(errors.quantity)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -309,8 +325,10 @@ export default function AdminProducts() {
                                             rows={4}
                                             fullWidth
                                             variant="outlined"
-                                            helperText={<ErrorMessage name="description" />}
-                                            error={Boolean(<ErrorMessage name="description" />)}
+                                            // helperText={<ErrorMessage name="description" />}
+                                            // error={Boolean(<ErrorMessage name="description" />)}
+                                            helperText={touched.description && errors.description ? errors.description : ""}
+                                            error={touched.description && Boolean(errors.description)}
                                         />
                                     </Grid>
                                 </Grid>
@@ -332,8 +350,6 @@ export default function AdminProducts() {
                                 {/* <Button type="submit" variant="contained" color="primary" disabled={!dirty || !isValid}>
                                             הוסף מוצר
                                         </Button> */}
-
-
                                 <Button
                                     onClick={() => setOpen(false)}
                                     autoFocus>ביטול</Button>

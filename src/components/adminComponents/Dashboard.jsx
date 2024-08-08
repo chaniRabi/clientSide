@@ -50,20 +50,16 @@ const Dashboard = () => {
     );
   }
 
-  const handleAddOrder = () => {
-    // Add order logic
-  };
-
   const handleDeleteOrder = (id) => {
     dispatch(deleteOrder(id));
   };
 
   const handleChangeStatus = (e, order) => {
-    let _order = {...order};
+    let _order = { ...order };
     let statusId = e.target.value;
     _order.statusId = statusId;
     UpdateOrder(_order.id, _order).then(res => {
-      if(res.status){
+      if (res.status) {
         dispatch(updateOrderStatus(_order));
       }
     })
@@ -76,96 +72,68 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
-      {open && <AdminEditProductDialog open={open} handleClose={handleClose} order={orderDetails}/>}
+      {open && <AdminEditProductDialog open={open} handleClose={handleClose} order={orderDetails} />}
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Typography variant="h4" gutterBottom>
-            דף ראשי
-          </Typography>
-        </Grid>
-
-        {/* <Grid item xs={6}>
-            <Paper sx={{ padding: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Products
-              </Typography>
-              <Button variant="contained" color="primary" onClick={handleAddProduct}>
-                Add Product
-              </Button>
-              {products??products.map(product => (
-                <Box key={product.id} sx={{ marginTop: 2 }}>
-                  <Typography>{product.name}</Typography>
-                  <Button variant="outlined" color="secondary" onClick={() => handleDeleteProduct(product.id)}>
-                    Delete
-                  </Button>
-                  <Button variant="outlined" color="primary" onClick={() => handleEditProduct(product)}>
-                    Edit
-                  </Button>
-                </Box>
-              ))}
-            </Paper>
-          </Grid> */}
-
-        <Grid item xs={6}>
           <Paper sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h4" gutterBottom>
               הזמנות
             </Typography>
             {/* <Button variant="contained" color="primary" onClick={handleAddOrder}>
               הוסף הזמנה
             </Button> */}
-            <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>שם לקוח</TableCell>
-                    <TableCell>תאריך</TableCell>
-                    <TableCell>סה"כ</TableCell>
-                    <TableCell>סטטוס הזמנה</TableCell>
-                    <TableCell>לצפיה בהזמנה</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {orders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell>{order.id}</TableCell>
-                      <TableCell>{order.userId}</TableCell>
-                      <TableCell>{order.date}</TableCell>
-                      <TableCell>{order.totalCost}</TableCell>
-                      <TableCell>
-                        {/* {orders.map(order => (
+              <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>שם לקוח</TableCell>
+                      <TableCell>תאריך</TableCell>
+                      <TableCell>סה"כ</TableCell>
+                      <TableCell>סטטוס הזמנה</TableCell>
+                      <TableCell>לצפיה בהזמנה</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {orders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell>{order.id}</TableCell>
+                        <TableCell>{order.userId}</TableCell>
+                        <TableCell>{order.date}</TableCell>
+                        <TableCell>{order.totalCost}</TableCell>
+                        <TableCell>
+                          {/* {orders.map(order => (
               <Box key={order.id} sx={{ marginTop: 2 }}>
                 <Typography>Order #{order.id}</Typography> */}
-                        {/* <Button variant="outlined" color="secondary" onClick={() => handleDeleteOrder(order.id)}>
+                          {/* <Button variant="outlined" color="secondary" onClick={() => handleDeleteOrder(order.id)}>
                           Delete
                         </Button> */}
-                        <FormControl fullWidth>
-                  {/* <InputLabel id="demo-simple-select-label"></InputLabel> */}
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={order.statusId}
-                    // defaultChecked={order.statusId}
-                    onChange={(e) => handleChangeStatus(e, order)}
-                  >
-                    {
-                      status.map((statusItem)=>{
-                        return <MenuItem key={statusItem.id} value={statusItem.id}>{statusItem.description}</MenuItem>
-                      })
-                    }
-                  </Select>
-                </FormControl>
-                      </TableCell>
-                       <Button variant="outlined" color="secondary" onClick={() => handleDetailsOrder(order)}>
+                          <FormControl fullWidth>
+                            {/* <InputLabel id="demo-simple-select-label"></InputLabel> */}
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={order.statusId}
+                              // defaultChecked={order.statusId}
+                              onChange={(e) => handleChangeStatus(e, order)}
+                            >
+                              {
+                                status.map((statusItem) => {
+                                  return <MenuItem key={statusItem.id} value={statusItem.id}>{statusItem.description}</MenuItem>
+                                })
+                              }
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <Button variant="outlined" color="secondary" onClick={() => handleDetailsOrder(order)}>
                           לצפיה בהזמנה
                         </Button>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
         </Grid>
       </Grid>
     </Box>
